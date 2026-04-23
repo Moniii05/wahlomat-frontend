@@ -1,0 +1,70 @@
+.qm-page {
+    padding-bottom: 3rem;
+    background-color: var(--htw-bg-base);
+}
+
+/* Karten-Styling */
+.qm-card {
+    border: 1px solid var(--htw-border);
+    border-radius: var(--htw-radius);
+    background-color: var(--htw-bg-card);
+    transition: all 0.2s ease-in-out;
+}
+
+.qm-card:hover {
+    background-color: var(--htw-bg-light);
+}
+
+/* Eingabebereich für neue Frage */
+.qm-add-box {
+    background-color: var(--htw-green-10);
+    /* Will be dark gray in dark mode */
+    border: 1px solid var(--htw-green);
+    border-radius: var(--htw-radius);
+    padding: 1.5rem;
+}
+
+.qm-add-box input.form-control {
+    border: 1px solid var(--htw-green-30);
+}
+
+.qm-add-box input.form-control:focus {
+    border-color: var(--htw-green);
+    box-shadow: 0 0 0 0.25rem rgba(118, 185, 0, 0.25);
+}
+
+/* Texte */
+.qm-title {
+    color: var(--htw-green);
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+}
+
+.qm-subtitle {
+    color: var(--htw-text-muted);
+    font-size: 1rem;
+    line-height: 1.5;
+    margin-bottom: 2rem;
+}
+
+/* Buttons */
+.btn-trash {
+    color: var(--htw-text-muted);
+    font-size: 1.25rem;
+    transition: color 0.2s;
+}
+
+.btn-trash:hover {
+    color: #dc3545;
+    /* Bootstrap danger rot */
+}
+
+/* Badge für Antwortanzahl */
+.qm-badge-count {
+    font-size: 0.85rem;
+    color: var(--htw-text-muted);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    white-space: nowrap;
+}

@@ -1,0 +1,51 @@
+<div class="page-not-found-container min-vh-100 d-flex align-items-center justify-content-center">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-12 col-lg-8 col-xl-6 text-center">
+
+        <!-- 404 Error Card -->
+        <div class="card shadow-lg border-0">
+          <div class="card-body p-5">
+
+            <!-- Error Icon -->
+            <div class="error-icon mb-4">
+              <i class="bi bi-exclamation-triangle-fill" style="font-size: 5rem; color: var(--htw-green);"></i>
+            </div>
+
+            <!-- Error Code -->
+            <div class="error-code mb-3">
+              <span class="badge rounded-pill px-4 py-2" style="background-color: var(--htw-green); font-size: 1.5rem;">
+                {{ 'pageNotFound.errorCode' | transloco }}
+              </span>
+            </div>
+
+            <!-- Title -->
+            <h1 class="fw-bold mb-3" style="color: var(--htw-green);">
+              {{ 'pageNotFound.title' | transloco }}
+            </h1>
+
+            <!-- Message -->
+            <p class="fs-5 text-secondary mb-2">
+              {{ 'pageNotFound.message' | transloco }}
+            </p>
+
+            <!-- Suggestion -->
+            <p class="text-muted mb-4">
+              {{ 'pageNotFound.suggestion' | transloco }}
+            </p>
+
+            <!-- Back to Home Button -->
+            <a routerLink="/home"
+               class="btn btn-primary btn-lg rounded-pill px-5 py-3 fw-semibold shadow-sm">
+              <i class="bi bi-house-fill me-2"></i>
+              {{ 'pageNotFound.homeButton' | transloco }}
+            </a>
+
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+

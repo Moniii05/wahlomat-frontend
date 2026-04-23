@@ -1,0 +1,527 @@
+<div class="cm-page component-container">
+  <div class="container py-5">
+    <div class="row g-4">
+
+      <!-- LINKS 5/12: Invite + Kandidatenliste -->
+      <div class="col-lg-5">
+
+        <!-- Karte: Kandidaten einladen -->
+        <div class="card cm-card shadow-sm mb-4">
+          <div class="card-body cm-invite-form">
+            <div class="d-flex justify-content-between align-items-start mb-3">
+              <div>
+                <h2 class="cm-title h4 mb-1">{{ 'candidateManagement.inviteSection.title' | transloco }}</h2>
+              </div>
+
+              <!-- Icon -->
+              <div class="cm-info-icon">
+                <span>?</span>
+                <div class="cm-info-tooltip" [innerHTML]="'candidateManagement.inviteSection.tooltip' | transloco"></div>
+              </div>
+            </div>
+
+            <!-- E-Mail Eingabe + Button -->
+            <div class="row gy-2 align-items-end">
+              <div class="col-12 col-md-8">
+                <label class="form-label mb-1">
+                  {{ 'candidateManagement.inviteSection.emailLabel' | transloco }}</label>
+                  <span class="text-muted">{{ 'candidateManagement.inviteSection.emailHint' | transloco }}<br></span>
+                <input type="text" class="form-control" [(ngModel)]="email">
+              </div>
+
+
+              <div class="col-12 col-md-4">
+                <button class="btn btn-primary w-100 mt-3 mt-md-0" type="button" (click)="newCandidate()">
+                  {{ 'candidateManagement.inviteSection.inviteButton' | transloco }}
+                </button>
+              </div>
+            </div>
+
+            <!-- Meldungen nur Invite -->
+            <div class="mt-3">
+              <div class="alert alert-danger py-2 mb-2" *ngIf="inviteErrorMessage">
+                {{ inviteErrorMessage }}
+              </div>
+
+              <div class="alert alert-success py-2" *ngIf="inviteSuccessMessage">
+                {{ inviteSuccessMessage }}
+              </div>
+
+              <div class="alert alert-success py-2 mt-2" *ngIf="bulkSuccessCount > 0">
+                {{ 'candidateManagement.inviteSection.bulkSuccess' | transloco : { count: bulkSuccessCount } }}
+              </div>
+
+              <div class="alert alert-danger py-2 mt-2" *ngIf="bulkFailedCount > 0">
+                {{ 'candidateManagement.inviteSection.bulkFail' | transloco : { count: bulkFailedCount } }}
+                <br />
+                <small *ngIf="bulkFailedEmails.length">
+                  {{ 'candidateManagement.inviteSection.bulkFailedEmails' | transloco : { emails: bulkFailedEmails.join(', ') } }}
+                </small>
+              </div>
+
+              <div class="alert alert-info py-2 mt-2" *ngIf="bulkInfoMessage">
+                {{ bulkInfoMessage }}
+              </div>
+
+              <div class="alert alert-danger py-2 mt-2" *ngIf="bulkErrorMessage">
+                {{ bulkErrorMessage }}
+              </div>
+            </div>
+
+            <!-- Liste der Invites -->
+            <div class="mt-3">
+
+              <div class="d-flex justify-content-between align-items-center mb-2">
+                <div class="d-flex align-items-center gap-2">
+                  <h3 class="h6 mb-0">{{ 'candidateManagement.invitedList.title' | transloco }}</h3>
+                </div>
+
+                <span class="badge rounded-pill cm-count-badge">
+                  {{ invitedCandidates.length }} {{ 'candidateManagement.invitedList.total' | transloco }}
+                </span>
+              </div>
+
+              <div class="alert alert-danger py-2 mb-2" *ngIf="inviteListErrorMessage">
+                {{ inviteListErrorMessage }}
+              </div>
+
+              <button type="button" (click)="toggleInvites()" class="btn btn-outline-primary w-100 mb-2">
+                {{ showInvites ? ('candidateManagement.invitedList.collapseInvites' | transloco) : ('candidateManagement.invitedList.expandInvites' | transloco) }}
+              </button>
+
+              <div *ngIf="showInvites">
+                <ul class="list-group cm-list" *ngIf="invitedCandidates.length > 0; else noInvites">
+                  <li class="list-group-item cm-list-item d-flex justify-content-between align-items-center"
+                    *ngFor="let inv of invitedCandidates">
+                    <div class="cm-candidate-main text-start">
+                      <div class="cm-candidate-name">{{ inv.email }}</div>
+                      <div class="cm-candidate-email text-muted small">
+                      </div>
+                    </div>
+                  </li>
+                </ul>
+
+                <ng-template #noInvites>
+                  <div class="cm-placeholder text-muted">
+                    {{ 'candidateManagement.invitedList.noInvites' | transloco }}
+                  </div>
+                </ng-template>
+              </div>
+            </div>
+
+
+          </div>
+
+        </div>
+
+        <!-- Karte: Liste registrierte Kandidaten -->
+        <div class="card cm-card shadow-sm">
+          <div class="card-body">
+            <div class="d-flex justify-content-between align-items-center mb-2">
+              <div>
+                <h2 class="cm-title h4 mb-1">{{ 'candidateManagement.registeredList.title' | transloco }}</h2>
+              </div>
+
+              <div class="d-flex align-items-center gap-2">
+                <!-- Icon -->
+                <div class="cm-info-icon">
+                  <span>?</span>
+                  <div class="cm-info-tooltip">
+                    {{ 'candidateManagement.registeredList.tooltip' | transloco }}
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!--  fehlermeldung nur für liste -->
+            <div class="alert alert-danger py-2 mb-1" *ngIf="listErrorMessage">
+              {{ listErrorMessage }}
+            </div>
+
+            <div class="alert alert-success py-2 mb-1" *ngIf="listSuccessMessage">
+              {{ listSuccessMessage }}
+            </div>
+
+            <!-- Suchfeld -->
+            <div class="mb-3">
+              <input type="search" class="form-control" [placeholder]="'candidateManagement.registeredList.searchPlaceholder' | transloco"
+                [(ngModel)]="searchTerm" />
+            </div>
+
+            <div class="d-flex justify-content-between align-items-center mb-2">
+              <div class="d-flex align-items-center gap-2">
+                <h3 class="h6 mb-0">{{ 'candidateManagement.registeredList.listTitle' | transloco }}</h3>
+              </div>
+
+              <span class="badge rounded-pill cm-count-badge ms-auto">
+                {{ registeredCandidatesList.length }} {{ 'candidateManagement.registeredList.total' | transloco }}
+              </span>
+            </div>
+
+            <!-- Toggle für Liste -->
+            <button type="button" (click)="toggleList()" class="btn btn-outline-primary w-100 mb-3">
+              {{ showList ? ('candidateManagement.registeredList.collapseList' | transloco) : ('candidateManagement.registeredList.expandList' | transloco) }}
+            </button>
+
+
+            <!-- Liste registrierte Kandidaten -->
+            <div *ngIf="showList">
+              <ul class="list-group cm-list" *ngIf="registeredCandidatesList.length >= 0">
+                <li class="list-group-item cm-list-item d-flex justify-content-between align-items-center"
+                  *ngFor="let candidate of filteredRegisteredCandidates" (click)="selectCandidate(candidate)"
+                  [class.cm-list-item-active]="selectedCandidate?.userId === candidate.userId">
+
+                  <!-- Name + E-Mail -->
+                  <div class="cm-candidate-main text-start">
+                    <div class="cm-candidate-name">
+                      <!-- Wenn Name vorhanden, zeigen, sonst E-Mail -->
+                      {{
+                      candidate.firstname || candidate.lastname
+                      ? (candidate.firstname || '') + ' ' + (candidate.lastname || '')
+                      : candidate.email
+                      }}
+                    </div>
+                    <div class="cm-candidate-email">
+                      {{ candidate.email }}
+                    </div>
+                  </div>
+
+                  <!-- rechte Seite: Buttons -->
+                  <div class="cm-actions d-flex gap-2">
+                    <button type="button" class="btn btn-sm btn-outline-secondary"
+                      (click)="selectCandidate(candidate); $event.stopPropagation()">
+                      {{ 'candidateManagement.registeredList.detailsButton' | transloco }}
+                    </button>
+
+                    <button type="button" class="btn btn-sm btn-outline-danger"
+                      (click)="openDeleteThisCandidate(candidate); $event.stopPropagation()" data-bs-toggle="modal"
+                      data-bs-target="#deleteThisCandidateModal">
+                      {{ 'candidateManagement.registeredList.deleteButton' | transloco }}
+                    </button>
+                  </div>
+                </li>
+              </ul>
+            </div>
+
+            <!-- alle Kandidat/innen löschen -->
+            <div class="mt-3">
+              <button type="button" class="btn btn-outline-danger w-100" data-bs-toggle="modal"
+                data-bs-target="#deleteAllCandidatesModal">
+                {{ 'candidateManagement.registeredList.deleteAllButton' | transloco }}
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- =======================================
+           RECHTS 7/12: Profil + Kandidaturen
+           ======================================= -->
+      <div class="col-lg-7">
+
+        <!-- Placeholder, falls noch kein Kandidat ausgewählt -->
+        <ng-container *ngIf="selectedCandidate; else noCandidateSelected">
+
+          <!-- Karte: Profil bearbeiten -->
+          <div class="card cm-card shadow-sm mb-4">
+            <div class="card-body">
+              <div class="d-flex justify-content-between align-items-start mb-3">
+                <div>
+                  <h3 class="h5 mb-1">
+                    {{ 'candidateManagement.profile.title' | transloco }}
+                    <span class="text-success">
+                      {{
+                      (profileForm?.firstname || profileForm?.lastname)
+                      ? ((profileForm?.firstname || '') + ' ' + (profileForm?.lastname || ''))
+                      : selectedCandidate.email
+                      }}
+                    </span>
+                  </h3>
+                  <div class="cm-profile-email">
+                    {{ 'candidateManagement.profile.email' | transloco }}
+                    <span class="cm-tag-mail">
+                      {{ selectedCandidate.email }}
+                    </span>
+                  </div>
+                </div>
+
+                <div class="d-flex gap-2">
+                  <!-- Bearbeiten-Button -->
+                  <button *ngIf="!isEditingProfile && profileForm" class="btn btn-outline-secondary btn-sm"
+                    type="button" (click)="startEditProfile()">
+                    {{ 'candidateManagement.profile.editButton' | transloco }}
+                  </button>
+
+                  <!-- Speichern / Abbrechen im Edit-Modus -->
+                  <ng-container *ngIf="isEditingProfile && profileForm">
+                    <button class="btn btn-success btn-sm" type="button" (click)="saveProfileChanges()">
+                      {{ 'candidateManagement.profile.saveButton' | transloco }}
+                    </button>
+                    <button class="btn btn-outline-secondary btn-sm" type="button" (click)="cancelEditProfile()">
+                      {{ 'candidateManagement.profile.cancelButton' | transloco }}
+                    </button>
+                  </ng-container>
+                </div>
+              </div>
+
+              <!-- Meldungen für Profil -->
+              <div class="mb-2">
+                <div class="alert alert-danger py-1 mb-1" *ngIf="profileErrorMessage">
+                  {{ profileErrorMessage }}
+                </div>
+                <div class="alert alert-success py-1 mb-1" *ngIf="profileSuccessMessage">
+                  {{ profileSuccessMessage }}
+                </div>
+              </div>
+
+              <!-- Profilformular -->
+              <form *ngIf="profileForm" class="row g-3 text-start">
+
+                <div class="col-md-6">
+                  <label class="form-label">{{ 'candidateManagement.profile.firstname' | transloco }}</label>
+                  <input type="text" class="form-control" [(ngModel)]="profileForm.firstname" name="firstname"
+                    [readonly]="!isEditingProfile" />
+                </div>
+
+                <div class="col-md-6">
+                  <label class="form-label">{{ 'candidateManagement.profile.lastname' | transloco }}</label>
+                  <input type="text" class="form-control" [(ngModel)]="profileForm.lastname" name="lastname"
+                    [readonly]="!isEditingProfile" />
+                </div>
+
+                <div class="col-md-6">
+                  <label class="form-label d-flex align-items-center">
+                    {{ 'candidateManagement.profile.faculty' | transloco }}
+
+                    <!-- rotes !-Icon, nur wenn man im Bearbeitungsmodus ist -->
+                    <div *ngIf="isEditingProfile" class="cm-info-icon cm-info-icon-danger ms-2">
+                      <span>!</span>
+                      <div class="cm-info-tooltip">
+                        {{ 'candidateManagement.profile.facultyWarning' | transloco }}
+                      </div>
+                    </div>
+                  </label>
+
+                  <input type="number" min="1" class="form-control" [(ngModel)]="profileForm.facultyId" name="facultyId"
+                    [readonly]="!isEditingProfile" />
+                </div>
+
+                <div class="col-12">
+                  <label class="form-label">{{ 'candidateManagement.profile.aboutMe' | transloco }}</label>
+                  <textarea rows="3" class="form-control" [(ngModel)]="profileForm.aboutMe" name="aboutMe"
+                    [readonly]="!isEditingProfile"></textarea>
+                </div>
+
+              </form>
+
+              <!-- falls Profil noch nicht geladen -->
+              <div *ngIf="!profileForm" class="cm-placeholder text-muted">
+                {{ 'candidateManagement.profile.loading' | transloco }}
+              </div>
+            </div>
+          </div>
+
+          <!-- Karte: Kandidaturen -->
+          <div class="card cm-card shadow-sm">
+            <div class="card-body">
+              <div class="d-flex justify-content-between align-items-center mb-3">
+                <!-- Titel + Icon -->
+                <div class="d-flex align-items-center gap-2">
+                  <h3 class="h5 mb-0">{{ 'candidateManagement.candidacies.title' | transloco }}</h3>
+
+                  <div class="cm-info-icon">
+                    <span>?</span>
+                    <div class="cm-info-tooltip">
+                      {{ 'candidateManagement.candidacies.tooltip' | transloco }}
+                    </div>
+                  </div>
+                </div>
+
+                <!-- rechte seite: badge Anzahl Einträge -->
+                <span class="badge rounded-pill cm-count-badge ms-2">
+                  {{ candidacies.length }} {{ 'candidateManagement.candidacies.total' | transloco }}
+                </span>
+              </div>
+
+              <!-- Meldungen für Kandidaturen -->
+              <div class="mb-2">
+                <div class="alert alert-danger py-1 mb-1" *ngIf="candidacyErrorMessage">
+                  {{ candidacyErrorMessage }}
+                </div>
+                <div class="alert alert-success py-1 mb-1" *ngIf="candidacySuccessMessage">
+                  {{ candidacySuccessMessage }}
+                </div>
+              </div>
+
+              <!-- Kandidaturen -->
+              <div *ngIf="candidacies.length > 0; else noCandidacies">
+                <div class="cm-candidacy-row border rounded-3 p-3 mb-2" *ngFor="let c of candidacies">
+
+                  <div class="row g-2 align-items-center">
+
+                    <!-- Gremium nur anzeigen, nicht bearbeitbar -->
+                    <div class="col-md-5">
+                      <label class="form-label small mb-1">{{ 'candidateManagement.candidacies.committee' | transloco }}</label>
+                      <div class="form-control form-control-sm cm-readonly-field">
+                        {{ getCommitteeLabelById(c.committeeId) }}
+                      </div>
+                    </div>
+
+                    <!-- Liste nur anzeigen, nicht bearbeitbar -->
+                    <div class="col-md-3">
+                      <label class="form-label small mb-1">{{ 'candidateManagement.candidacies.list' | transloco }}</label>
+                      <div class="form-control form-control-sm cm-readonly-field">
+                        {{ getListLabelById(c.listId) }}
+                      </div>
+                    </div>
+
+                    <!-- Löschen-Button -->
+                    <div class="col-md-4 text-end cm-actions">
+                      <button type="button" class="btn btn-sm btn-outline-danger" (click)="deleteCandidacyFromUser(c)">
+                        {{ 'candidateManagement.candidacies.deleteButton' | transloco }}
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- keine Kandidaturen vorhanden -->
+              <ng-template #noCandidacies>
+                <div class="cm-placeholder text-muted mb-3">
+                  {{ 'candidateManagement.candidacies.noCandidacies' | transloco }}
+                </div>
+              </ng-template>
+
+              <hr class="my-3" />
+
+              <!-- Neue Kandidatur anlegen -->
+              <h4 class="h6 mb-2">{{ 'candidateManagement.candidacies.addNew' | transloco }}</h4>
+              <form class="row g-2 align-items-end">
+
+                <!-- Gremium: Dropdown -->
+                <div class="col-md-5">
+                  <label class="form-label small mb-1">{{ 'candidateManagement.candidacies.committee' | transloco }}</label>
+                  <select class="form-select form-select-sm" [(ngModel)]="newCandidacy.committeeId"
+                    name="newCommitteeId" (ngModelChange)="onNewCommitteeChange()">
+
+                    <option [ngValue]="''">{{ 'candidateManagement.candidacies.selectCommittee' | transloco }}</option>
+
+                    <!-- alle Gremien aus this.committees -->
+                    <option *ngFor="let c of committeesForSelectedCandidate" [ngValue]="c.committeeId">
+                      {{ getCommitteeLabelForUi(c) }}
+                    </option>
+                  </select>
+                </div>
+
+                <!-- Liste: dropdown, abhängig von gewählten gremium -->
+                <div class="col-md-3">
+                  <label class="form-label small mb-1">{{ 'candidateManagement.candidacies.list' | transloco }}</label>
+                  <select class="form-select form-select-sm" [(ngModel)]="newCandidacy.listId" name="newListId"
+                    [disabled]="!newCandidacy.committeeId">
+
+                    <option [ngValue]="0">{{ 'candidateManagement.candidacies.selectList' | transloco }}</option>
+
+                    <!-- gefilterte Listen aus listsForNewCandidacy -->
+                    <option *ngFor="let l of listsForNewCandidacy" [ngValue]="l.listId">
+                      {{ l.listName ? (l.listName + ' (' + l.number + ')') : l.number }}
+                    </option>
+                  </select>
+                </div>
+
+                <div class="col-md-4 text-end">
+                  <button type="button" class="btn btn-sm btn-primary" (click)="addCandidacy()">
+                    {{ 'candidateManagement.candidacies.addButton' | transloco }}
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </ng-container>
+
+        <!-- Placeholder (wenn noch kein Kandidat gewählt) -->
+        <ng-template #noCandidateSelected>
+          <div class="card cm-card shadow-sm h-100 d-flex align-items-center justify-content-center">
+            <div class="card-body text-center">
+              <p class="cm-placeholder mb-2">
+                {{ 'candidateManagement.placeholder.noSelection' | transloco }}
+              </p>
+              <p class="cm-subtitle mb-0">
+                {{ 'candidateManagement.placeholder.tip' | transloco }}
+              </p>
+            </div>
+          </div>
+        </ng-template>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- =========================== -->
+
+<!-- modal: eine Pers. löschen -->
+<div id="deleteThisCandidateModal" class="modal fade" tabindex="-1" aria-labelledby="deleteThisCandidateModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+      <div class="modal-header">
+        <h5 class="modal-title" id="deleteThisCandidateModalLabel">
+          {{ 'candidateManagement.deleteModal.titleSingle' | transloco }}
+        </h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+
+      <div class="modal-body">
+        <p>
+          {{ 'candidateManagement.deleteModal.messageSingle' | transloco }}
+        </p>
+        <p class="text-muted">
+          {{ 'candidateManagement.deleteModal.email' | transloco }} {{ thisCandidateDelete?.email }}
+        </p>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+          {{ 'candidateManagement.deleteModal.cancelButton' | transloco }}
+        </button>
+        <button type="button" class="btn btn-danger" (click)="confirmDeleteThisCandidate()" data-bs-dismiss="modal">
+          {{ 'candidateManagement.deleteModal.confirmButton' | transloco }}
+        </button>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- modal: alle Pers. löschen -->
+<div id="deleteAllCandidatesModal" class="modal fade" tabindex="-1" aria-labelledby="deleteAllCandidatesModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+      <div class="modal-header">
+        <h5 class="modal-title" id="deleteAllCandidatesModalLabel">
+          {{ 'candidateManagement.deleteModal.titleAll' | transloco }}
+        </h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+
+      <div class="modal-body">
+        <p>
+          {{ 'candidateManagement.deleteModal.messageAll' | transloco }}
+        </p>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+          {{ 'candidateManagement.deleteModal.cancelButton' | transloco }}
+        </button>
+        <button type="button" class="btn btn-danger" (click)="deleteAllCandidates()" data-bs-dismiss="modal">
+          {{ 'candidateManagement.deleteModal.confirmButton' | transloco }}
+        </button>
+      </div>
+
+    </div>
+  </div>
+</div>

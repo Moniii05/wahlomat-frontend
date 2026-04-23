@@ -1,0 +1,20 @@
+:host {
+  background-color: var(--htw-green-5);
+}
+
+.footer-link {
+  color: var(--htw-text-dark);
+  text-decoration: none;
+  font-size: 0.9rem;
+}
+
+.footer-link:hover {
+  color: var(--htw-green);
+  text-decoration: underline;
+}
+
+img {
+  height: 3.5rem;
+  width: auto;
+  margin: 0.5rem
+}

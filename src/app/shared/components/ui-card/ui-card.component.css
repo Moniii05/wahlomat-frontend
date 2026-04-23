@@ -1,0 +1,17 @@
+.ui-card {
+    background-color: #ffffff;
+    border-radius: var(--htw-radius);
+    box-shadow: var(--htw-shadow);
+    /* Use the new global shadow */
+    border: 1px solid var(--htw-green-20);
+    /* Consistent border */
+    margin-bottom: 1.5rem;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    overflow: hidden;
+}
+
+/* Optional: Slight lift on hover consistent with global style */
+.ui-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 30px rgba(118, 185, 0, 0.2);
+}

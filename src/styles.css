@@ -1,0 +1,204 @@
+@import "bootstrap/dist/css/bootstrap.min.css";
+
+
+
+:root {
+  /* Primary */
+  --htw-green: #76B900;
+
+  /* Light Backgrounds */
+  --htw-green-5: #f9fcf4;
+  --htw-green-51: #f9fcf4;
+  --htw-green-515: #f9fcf4;
+  --htw-green-10: #f3f8e9;
+  --htw-green-101: #f3f8e9;
+  --htw-green-15: #edf5df;
+  --htw-green-20: #e7f2d3;
+  --htw-green-25: #e1eec8;
+
+  /* Secondary / Cards */
+  --htw-green-30: #dbebbd;
+  --htw-green-35: #d5e8b3;
+  --htw-green-40: #cfe5a8;
+  --htw-green-45: #c8e19c;
+  --htw-green-50: #c2dd91;
+
+  /* Hover / Active / Accents */
+  --htw-green-55: #bdda87;
+  --htw-green-60: #b7d77c;
+  --htw-green-65: #b1d471;
+  --htw-green-70: #aad065;
+  --htw-green-75: #a5ce5c;
+  --htw-green-80: #9fc951;
+  --htw-green-85: #98c645;
+  --htw-green-90: #93c33a;
+
+  /* Neutrals */
+  --htw-text-dark: #333333;
+  --htw-text-dark2: #333333;
+  --htw-text-muted: #6c757d; /*  #666666 */
+  --htw-text-muted2: #6c757d;
+  --htw-bg-light: #f5f5f5;
+  --htw-bg-light2: #f5f5f5;
+  --htw-bg-light3: #f5f5f5;
+  --htw-border: #eaeaea;
+  --htw-text-secondary: #6c757d;
+  --htw-progress: #e9ecef;
+
+    /* UI Tokens */
+  --htw-font-stack: Verdana, Geneva, Tahoma, sans-serif;
+  --htw-radius: 12px;
+  --htw-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  --htw-shadow-hover: 0 6px 16px rgba(118, 185, 0, 0.2);
+}
+
+[data-theme="dark"] {
+  /* Dark Backgrounds */
+  --htw-bg-light:#DCDCDC ; /* #121212 */
+  --htw-bg-light2: #121212 ;
+  --htw-bg-light3: #a0a0a0;
+  --htw-border: #2c2c2c;
+  --htw-border2:#1e3000;
+
+
+  /* Text */
+  --htw-text-dark: #e0e0e0;
+  --htw-text-dark2: #333333;
+  --htw-text-muted: #e0e0e0;
+  --htw-text-muted2: #333333;
+  --text-muted: #a0a0a0;
+  --htw-text-secondary:#e0e0e0;
+  --htw-progress:#1e3000;
+
+  /* Adjust light greens to be dark for backgrounds */
+  --htw-green-5: #0e1a00;
+  --htw-green-10: #162400;
+  --htw-green-101: #76B900;
+  --htw-green-15: #1e3000;
+  --htw-green-20: #263c00;
+  --htw-green-30: #2d4500;
+
+  --htw-green-51: #f9fcf4;
+  --htw-green-515: #a0a0a0;
+
+  /* Keep main green but maybe slightly brighter or same */
+  --htw-green: #76B900;
+
+  /* Shadow adjustment for dark mode */
+  --htw-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+  --htw-shadow-hover: 0 6px 16px rgba(118, 185, 0, 0.4);
+}
+
+
+html, body {
+  height: 100%;
+  margin: 0;
+}
+
+.app-container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.main-content {
+  flex: 1; /* Nimmt den gesamten verfügbaren Platz ein */
+}
+
+.component-container {
+  padding-bottom: 5rem;
+}
+
+
+body {
+  font-family: var(--htw-font-stack) !important;
+  color: var(--htw-text-dark);
+  background-color: var(--htw-bg-base);
+  line-height: 1.6;
+}
+
+/* Typography Overrides */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--htw-font-stack);
+  font-weight: bold;
+  color: var(--htw-text-dark);
+}
+
+/* --- Bootstrap Overrides --- */
+
+/* Buttons */
+.btn-primary {
+  background-color: var(--htw-green);
+  border-color: var(--htw-green);
+  color: #fff;
+  font-weight: bold;
+  border-radius: 8px;
+  padding: 0.6rem 1.2rem;
+  transition: all 0.2s ease-in-out;
+}
+
+.btn-primary:hover,
+.btn-primary:focus,
+.btn-primary:active {
+  background-color: var(--htw-green-80) !important;
+  border-color: var(--htw-green-80) !important;
+  box-shadow: 0 0 0 4px var(--htw-green-20);
+}
+
+.btn-success {
+  background-color: Var(--htw-green);
+  border-color: var(--htw-green);
+}
+
+.btn-outline-primary {
+  color: var(--htw-green);
+  border-color: var(--htw-green);
+}
+
+.btn-outline-primary:hover {
+  background-color: var(--htw-green);
+  border-color: var(--htw-green);
+  color: #fff;
+}
+
+/* Forms */
+.form-control {
+  border-radius: 8px;
+  border: 2px solid #e0e0e0;
+  padding: 0.75rem;
+}
+
+.form-control:focus {
+  border-color: var(--htw-green);
+  box-shadow: 0 0 0 4px var(--htw-green-10);
+}
+
+/* Cards (if standard Bootstrap card is used) */
+.card {
+  border: none;
+  border-radius: var(--htw-radius);
+  box-shadow: var(--htw-shadow);
+  background-color: var(--htw-bg-card);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* Custom Utilities based on old classes */
+.htw-green-bg {
+  background-color: var(--htw-green) !important;
+  color: white;
+}
+
+.htw-light-bg {
+  background-color: var(--htw-green-20) !important;
+}
+
+/* Global Focus for Accessibility */
+:focus-visible {
+  outline: 3px solid var(--htw-green-50);
+  outline-offset: 2px;
+}

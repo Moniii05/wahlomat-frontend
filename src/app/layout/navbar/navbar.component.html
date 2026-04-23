@@ -1,0 +1,74 @@
+<nav class="navbar navbar-expand-lg htw-navbar">
+    <div class="container-fluid">
+
+        <!-- Titel -->
+        <a class="navbar-brand" routerLink="/"> {{ 'navbar.brand' | transloco }} </a>
+
+        <!-- Toggler für Mobile -->
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar"
+            aria-controls="mainNavbar" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <!-- Navbar Inhalt -->
+        <div class="collapse navbar-collapse" id="mainNavbar">
+
+            <!-- Links je nach eingeloggtem User (nur anzeigen wenn eingeloggt) -->
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0" *ngIf="loggedIn()">
+                <li class="nav-item" *ngFor="let link of role() === 'candidate' ? candidateLinks : adminLinks">
+                    <a class="nav-link nav-button-size" [routerLink]="link.path" routerLinkActive="active"
+                        [routerLinkActiveOptions]="{ exact: true }">
+                        {{ 'navbar.' + link.key | transloco }}
+                    </a>
+                </li>
+            </ul>
+
+            <!-- Platzhalter, damit rechte Seite rechts ist -->
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0" *ngIf="!loggedIn()">
+            </ul>
+
+            <!-- Rechts: Dark Mode Toggle + Logout -->
+            <ul class="navbar-nav mb-2 mb-lg-0 align-items-lg-center">
+
+                <!-- Language Toggle -->
+                <li class="nav-item me-2">
+                    <button class="btn nav-link fw-bold" (click)="toggleLanguage()"
+                            [title]="'navbar.languageToggle' | transloco">
+                        {{ currentLang === 'de' ? 'DE | EN' : 'EN | DE' }}
+                    </button>
+                </li>
+
+                <!-- Dark Mode Toggle -->
+                <li class="nav-item me-2">
+                    <button class="btn nav-link" (click)="toggleTheme()"
+                            [title]="'navbar.darkModeToggle' | transloco">
+                        <i class="bi" [class.bi-moon-fill]="!isDarkMode" [class.bi-sun-fill]="isDarkMode"></i>
+                    </button>
+                </li>
+
+                <!-- Audio -->
+                <li class="nav-item me-2" *ngIf="showAudioIcon">
+                    <button
+                      class="btn nav-link"
+                      (click)="playPageAudio()"
+                      title="Audio"
+                      aria-label="Audio abspielen"
+                    >
+                      <i class="bi bi-volume-up"></i>
+                    </button>
+                  </li>
+
+              <!-- Logout -->
+              <li class="nav-item" *ngIf="loggedIn()">
+                    <a class="nav-link" (click)="logout()" routerLink="/home" routerLinkActive="active"
+                        [routerLinkActiveOptions]="{ exact: true }">
+                        {{ 'common.logout' | transloco }}
+                    </a>
+                </li>
+
+
+            </ul>
+
+        </div>
+    </div>
+</nav>

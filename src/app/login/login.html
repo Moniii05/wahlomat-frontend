@@ -1,0 +1,48 @@
+<div class="login-wrapper">
+    <div class="login-card">
+        <h1 class="text-center login-title">{{ 'login.title' | transloco }}</h1>
+
+        <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+            <div class="form-floating mb-3">
+                <input class="form-control" type="email" id="email" [placeholder]="'login.emailPlaceholder' | transloco" formControlName="email"
+                    [class.is-invalid]="loginForm.controls['email'].invalid && loginForm.controls['email'].touched"
+                    [class.is-valid]="loginForm.controls['email'].valid && loginForm.controls['email'].touched"
+                    required>
+                <label for="email">{{ 'login.emailLabel' | transloco }}</label>
+
+                <!-- Validierungs-Fehler anzeigen -->
+                @if (loginForm.controls['email'].invalid && loginForm.controls['email'].touched) {
+                <div class="invalid-feedback">
+                    @if (loginForm.controls['email'].errors?.['required']) {
+                    {{ 'login.emailRequired' | transloco }}
+                    }
+                    @if (loginForm.controls['email'].errors?.['email']) {
+                    {{ 'login.emailInvalid' | transloco }}
+                    }
+                </div>
+                }
+            </div>
+
+            <div class="form-floating mb-4">
+                <input class="form-control" type="password" id="password" [placeholder]="'login.passwordPlaceholder' | transloco"
+                    formControlName="password"
+                    [class.is-invalid]="loginForm.controls['password'].invalid && loginForm.controls['password'].touched"
+                    [class.is-valid]="loginForm.controls['password'].valid && loginForm.controls['password'].touched">
+                <label for="password">{{ 'login.passwordLabel' | transloco }}</label>
+            </div>
+
+            <!-- Fehlermeldung bei ungültigen Anmeldedaten -->
+            @if (errorMessage){
+            <div class="alert alert-danger mb-3">
+                {{errorMessage}}
+            </div> }
+
+            <button type="submit" class="btn btn-primary w-100 py-2 fs-5"
+                [disabled]="!loginForm.valid">{{ 'login.loginButton' | transloco }}</button>
+        </form>
+      <span class="register-link mt-3 d-block text-center text-muted">
+        {{ 'login.noAccount' | transloco }}
+        <a routerLink="/candidate-registration">{{ 'login.registerLink' | transloco }}</a>
+      </span>
+    </div>
+</div>

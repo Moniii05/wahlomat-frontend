@@ -1,0 +1,365 @@
+.py-4{
+  background: var(--htw-green-5) !important;
+}
+.spinner-border{
+  color: var(--htw-text-dark);
+}
+
+.card-body{
+  background: var(--htw-green-5);
+}
+
+.mb-4{
+  background: var(--htw-green-5);
+}
+
+.mb-2{
+  color: var(--htw-text-dark);
+}
+
+.mb-3{
+  color: var(--htw-text-muted);
+}
+
+.dropdown-menu{
+  background: var(--htw-green-5);
+}
+
+.dropdown-item{
+ color: var( --htw-text-dark);
+}
+
+.mt-3{
+  color:var(--htw-text-dark);
+}
+
+.mb-0{
+  color:var(--htw-text-dark);
+}
+
+.results-candidate-grid{
+
+}
+
+.answer-item{
+  color: var(--htw-text-muted);
+}
+
+.row{
+  background: var(--htw-green-5);
+}
+
+.btn-sm{
+  color:var(--htw-text-dark);
+}
+
+.form-select{
+  background:var(--htw-green-5);
+  color:var(--htw-text-dark);
+}
+
+.results-progress-text{
+  color: var(--htw-text-muted);
+}
+
+
+  /* Progress Bar Header */
+.results-progress-header {
+  position: relative;
+  height: 50px;
+  background-color: var(--htw-progress);
+  border-radius: 8px 8px 0 0;
+  overflow: hidden;
+}
+
+.results-progress-bar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  background-color: var(--htw-green);
+  transition: width 0.3s ease;
+}
+
+.results-progress-text {
+  position: absolute;
+  right: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-weight: bold;
+  font-size: 1.1rem;
+  color: var(--htw-text-dark);
+  z-index: 2;
+}
+
+/* Card Body */
+.results-candidate-card .card-body {
+  background-color: var(--htw-green-5);
+  border-radius: 0 0 8px 8px;
+  padding: 1rem 1.25rem;
+}
+
+.candidate-name {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--htw-text-dark);
+  margin-bottom: 0.25rem;
+}
+
+.candidate-list {
+  color: var(--htw-text-muted);
+}
+
+
+.results-page {
+  background: transparent;
+  min-height: 100vh;
+}
+
+
+.results-header-card {
+  border-radius: var(--htw-radius);
+  background: #ffffff;
+  border: 1px solid var(--htw-border);
+}
+
+/* Titel Header */
+.results-title {
+  font-size: 1.9rem;
+  font-weight: 700;
+  color: var(--htw-green);
+}
+
+.results-subtitle {
+  font-size: 0.95rem;
+  color: var(--htw-text-muted);
+}
+
+/* Karte mit Filtern (FB, Anzahl, Gremien-Tabs) */
+.results-filter-card {
+  border-radius: var(--htw-radius);
+  background: var(--htw-green-5);
+  border: 1px solid var(--htw-border);
+}
+
+/* Gremien tabs */
+.results-committee-nav .nav {
+  gap: 0.5rem;
+}
+
+.results-committee-nav .nav-link {
+  border-radius: 999px;
+  font-size: 0.85rem;
+  padding: 0.35rem 0.95rem;
+  background-color: var(--htw-green-10);
+  color: var(--htw-text-dark);
+  border: 1px solid transparent;
+}
+
+.results-committee-nav .nav-link:hover {
+  background-color: var(--htw-green-20);
+}
+
+.results-committee-nav .nav-link.active {
+  background-color: var(--htw-green);
+  color: white;
+  border-color: var(--htw-green);
+}
+
+/* Grid für Kandidaten-Karten */
+.results-candidate-grid {
+  margin-top: 0.5rem;
+}
+
+/* einzelne Kandidaten-Karte */
+.results-candidate-card {
+  border-radius: var(--htw-radius);
+  background: #ffffff;
+  border: 1px solid var(--htw-border);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.results-candidate-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--htw-shadow-hover) !important;
+}
+
+/* HTW-Grünes Dropdown */
+.dropdown .btn-primary {
+  background-color: var(--htw-green) !important;
+  border-color: var(--htw-green) !important;
+  color: white !important;
+}
+
+.dropdown .btn-primary:hover,
+.dropdown .btn-primary:focus,
+.dropdown .btn-primary:active,
+.dropdown .btn-primary.show {
+  background-color: var(--htw-green-80) !important;
+  border-color: var(--htw-green-80) !important;
+  box-shadow: 0 0 0 4px var(--htw-green-20) !important;
+}
+
+/* Aktiver Dropdown-Item */
+.dropdown-menu .dropdown-item.active {
+  background-color: var(--htw-green) !important;
+  color: white!important;
+}
+
+.dropdown-menu .dropdown-item:hover {
+  background-color: var(--htw-green-20);
+  color: var(--htw-text-dark);
+}
+
+
+
+/* name von Kandidat */
+.candidate-name {
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--htw-text-dark);
+}
+
+/* Liste / Listenname */
+.candidate-list {
+  font-size: 0.85rem;
+  color: var(--htw-text-dark);
+}
+
+
+.candidate-committee {
+  font-size: 0.8rem;
+}
+
+/* Badge für Matching-Prozent */
+.results-match-badge {
+  font-size: 0.8rem;
+  font-weight: 600;
+  background: var(--htw-green);
+  color: #ffffff;
+  padding: 0.4rem 0.7rem;
+}
+
+/* Icon-Buttons (Über mich / Antworten) */
+.results-icon-btn {
+  border: none;
+  background: transparent;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0;
+  color: var(--htw-text-dark);
+}
+
+/* kreis um Icon */
+.results-icon-circle {
+  width: 3rem;
+  height: 3rem;
+  border-radius: 999px;
+  background: var(--htw-green);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.05);
+}
+
+
+/* SVG-Icon  */
+.results-icon-svg {
+  width: 1.5rem;
+  height: 1.5rem;
+  fill: #ffffff;
+}
+
+/* Symbol innerhalb Kreis (Emoji o. ? ) */
+.results-icon-symbol {
+  font-size: 1.5rem;
+  color: #ffffff;
+}
+
+/* Textlabel neben Icons (nur ab md sichtbar) */
+.results-icon-label {
+  font-size: 0.8rem;
+  color: var(--htw-text-dark);
+}
+
+/* aufgeklappte (über mich/antworten) */
+.results-section {
+  margin-top: 0.75rem;
+  padding-top: 0.5rem;
+  border-top: 1px solid var(--htw-border);
+}
+
+
+.section-title {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--htw-green);
+}
+
+.answers-list {
+  margin-top: 0.75rem;
+}
+
+.answer-item {
+  padding: 0.75rem 0;
+}
+
+.answer-item.border-bottom {
+  border-bottom: 1px solid var(--htw-border);
+}
+
+
+
+@media (min-width: 768px) {
+  .results-title {
+    font-size: 2.1rem;
+  }
+
+  .results-header-card,
+  .results-filter-card {
+    border-radius: var(--htw-radius);
+  }
+}
+
+/* PRINT LAYOUT  */
+@media print {
+
+  /* Optional: alles unsichtbar machen und nur Results-Bereich zeigen */
+  body * {
+    visibility: hidden;
+  }
+
+  .results-page,
+  .results-page * {
+    visibility: visible;
+  }
+
+  /* Results-Bereich auf ganze Seite strecken */
+  .results-page {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    padding: 1.5rem;
+    background: #ffffff !important;
+    /* weißer Hintergrund fürs PDF */
+  }
+
+  /* Kopfkarte und Filter enger machen, damit mehr Platz für Karten bleibt */
+  .results-header-card,
+  .results-filter-card {
+    box-shadow: none !important;
+    border: 1px solid #dddddd;
+  }
+
+  .results-candidate-card {
+    page-break-inside: avoid;
+    /* Karte nicht mitten im Druck trennen */
+  }
+
+  .results-print-button {
+    display: none !important;
+
+  }
+}

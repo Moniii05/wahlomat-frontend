@@ -1,0 +1,33 @@
+<div class="home-container">
+
+  <!-- Main Content - ZENTRIERT -->
+  <main class="flex-grow-1 d-flex align-items-center justify-content-center">
+    <div class="container-fluid px-4">
+      <div class="row justify-content-center text-center">
+        <div class="col-12 main-content">
+          <!-- Großer Titel -->
+          <h1 class="fw-bolder mb-5 lh-1 htw-display-title">
+            {{ 'home.title' | transloco }}
+          </h1>
+          <!-- Untertitel mit eigenem Wrapper -->
+          <div class="subtitle-wrapper mb-5 p-2">
+            <p class="fs-5 text-secondary mb-3 lh-lg">
+              {{ 'home.subtitle' | transloco }}
+            </p>
+            <p class="fs-6 text-muted fst-italic">
+              {{ 'home.disclaimer' | transloco }}
+            </p>
+          </div>
+          <!-- Haupt-CTA Button -->
+          <div class="mb-4">
+            <a routerLink="/voter/questions"
+              class="btn btn-primary btn-lg rounded-pill px-5 py-3 fw-semibold shadow-sm btn-cta"
+              style="font-size: 1.25rem;">
+              {{ 'home.startButton' | transloco }} <i class="bi bi-arrow-right ms-2"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>

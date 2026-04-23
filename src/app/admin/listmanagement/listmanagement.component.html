@@ -1,0 +1,140 @@
+<div class="container component-container lm-page mt-5">
+  <h2 class="lm-title">{{ 'listManagement.title' | transloco }}</h2>
+
+  <div class="accordion" id="accordion">
+    @for(committee of allCommittees; track committee.committeeId)
+    {
+    <div class="accordion-item shadow-sm border-0 mb-3">
+      <h2 class="accordion-header">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+          [attr.data-bs-target]="'#collapse' + committee.committeeId" aria-expanded="false"
+          [attr.aria-controls]="'collapse' + committee.committeeId">
+          {{ committee.committeeName }} {{ committee.FACULTY }}
+        </button>
+      </h2>
+      <div [id]="'collapse' + committee.committeeId" class="accordion-collapse collapse" data-bs-parent="#accordion">
+        <!-- Accordion Body mit CandidacyLists pro Gremium --->
+        <div class="accordion-body p-4">
+
+          <div class="d-flex justify-content-between align-items-center mb-3">
+            <strong class="text-success">{{ 'listManagement.listsOf' | transloco }} {{committee.committeeId}}</strong>
+          </div>
+
+          @if(getListsForCommittee(committee.committeeId).length > 0) {
+          <div class="table-responsive">
+            <table class="table table-hover table-custom align-middle">
+              <thead class="table-light">
+                <tr>
+                  <th scope="col" class="border-0 rounded-start">{{ 'listManagement.table.number' | transloco }}</th>
+                  <th scope="col" class="border-0">{{ 'listManagement.table.name' | transloco }}</th>
+                  <th scope="col" class="border-0 rounded-end text-end">{{ 'listManagement.table.action' | transloco }}</th>
+                </tr>
+              </thead>
+              <tbody>
+                @for (list of getListsForCommittee(committee.committeeId); track list.listId || $index ) {
+                <tr>
+                  <td class="fw-bold text-muted">{{ 'listManagement.listNumber' | transloco : { 'number' : list.number } }}</td>
+                  <td class="fw-semibold">{{ list.listName }}</td>
+                  <td class="text-end">
+                    <!-- Modal öffnen und ID setzen, im Modal wird delete aufgerufen -->
+                    <button class="btn btn-outline-danger btn-sm"
+                      (click)="setListToDelete(list.listId, committee.committeeId)" data-bs-toggle="modal"
+                      data-bs-target="#deleteConfirmModal">
+                      <i class="bi bi-trash3 me-1"></i> {{ 'listManagement.deleteButton' | transloco }}
+                    </button>
+                  </td>
+                </tr>
+                }
+              </tbody>
+            </table>
+          </div>
+          } @else {
+          <div class="alert alert-light border text-center my-3 text-muted">
+            <i class="bi bi-info-circle me-2"></i>{{ 'listManagement.noLists' | transloco }}
+          </div>
+          }
+
+          <!-- Bereich für neue CandidacyList - immer sichtbar -->
+          <div class="mt-4 pt-3 border-top">
+            @if (!addingNewList) {
+            <button class="btn btn-primary btn-sm" (click)="startAddList()">
+              <i class="bi bi-plus-lg me-2"></i>{{ 'listManagement.addNew.button' | transloco }}
+            </button>
+            } @else {
+            <div class="card bg-light border-0 p-3">
+              <h6 class="mb-3 text-success">{{ 'listManagement.addNew.title' | transloco }}</h6>
+
+              <!-- Fehlermeldung bei Duplikat -->
+              @if (duplicateError) {
+                <div class="alert alert-danger alert-dismissible fade show d-flex align-items-center mb-3" role="alert">
+                  <i class="bi bi-exclamation-triangle-fill me-2"></i>
+                  <div>{{ duplicateError }}</div>
+                  <button type="button" class="btn-close" (click)="duplicateError = null"></button>
+                </div>
+              }
+
+              <!-- Formular für neue Liste -->
+              <form [formGroup]="listForm" class="row g-2 align-items-center"
+                (ngSubmit)="saveNewList(committee.committeeId)">
+                <div class="col-auto">
+                  <input type="number" formControlName="numberControl" required class="form-control form-control-sm"
+                    [placeholder]="'listManagement.addNew.numberPlaceholder' | transloco" min="1" style="width: 80px;" />
+                </div>
+                <div class="col-auto flex-grow-1">
+                  <input type="text" formControlName="nameControl" class="form-control form-control-sm"
+                    [placeholder]="'listManagement.addNew.namePlaceholder' | transloco" />
+                </div>
+                <div class="col-auto">
+                  <button type="submit" class="btn btn-success btn-sm me-2">{{ 'listManagement.addNew.saveButton' | transloco }}</button>
+                  <button type="button" class="btn btn-secondary btn-sm" (click)="cancelAddNewList()">{{ 'listManagement.addNew.cancelButton' | transloco }}</button>
+                </div>
+              </form>
+            </div>
+            }
+          </div>
+        </div>
+      </div>
+    </div>
+    }
+  </div>
+
+</div>
+
+<!-- Bootstrap Modal -->
+<div id="deleteConfirmModal" class="modal fade" tabindex="-1" aria-labelledby="deleteConfirmModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content border-0 shadow-lg">
+      <div class="modal-header bg-danger text-white">
+        <h5 class="modal-title" id="deleteConfirmModalLabel"><i class="bi bi-exclamation-triangle-fill me-2"></i>{{ 'listManagement.deleteModal.title' | transloco }}</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body p-4">
+        <p class="fs-5 mb-3">{{ 'listManagement.deleteModal.message' | transloco }}</p>
+        @if (candidaciesCount > 0){
+          <div class="alert alert-warning d-flex align-items-center mb-0">
+            <i class="bi bi-exclamation-circle fs-3 me-3"></i>
+          @if (candidaciesCount === 1) {
+              <div>
+                {{ 'listManagement.deleteModal.warning' | transloco }}
+              </div>
+          } @else if (candidaciesCount > 1) {
+              <div>
+                {{ 'listManagement.deleteModal.warningPlural' | transloco : { count: candidaciesCount } }}
+              </div>
+          }
+          </div>
+        } @else {
+        <div class="alert alert-success d-flex align-items-center mb-0">
+          <i class="bi bi-check-circle fs-3 me-3"></i>
+          <div>{{ 'listManagement.deleteModal.safeToDelete' | transloco }}</div>
+        </div>
+        }
+      </div>
+      <div class="modal-footer bg-light">
+        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">{{ 'listManagement.deleteModal.cancelButton' | transloco }}</button>
+        <button type="button" class="btn btn-danger fw-bold" (click)="confirmDelete()" data-bs-dismiss="modal">{{ 'listManagement.deleteModal.confirmButton' | transloco }}</button>
+      </div>
+    </div>
+  </div>
+</div>

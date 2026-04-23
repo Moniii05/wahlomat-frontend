@@ -1,0 +1,270 @@
+<div class="results-page component-container py-4 py-md-5">
+
+  <!-- Titel -->
+  <div class="row mb-4">
+    <div class="col-12 col-lg-10 offset-lg-1">
+      <div class="text-center">
+        <h1 class="results-title mb-4 fs-1">
+          {{ 'results.title' | transloco }}
+        </h1>
+        <p class="results-subtitle">
+          {{'results.subtitle' | transloco }}
+        </p>
+      </div>
+    </div>
+  </div>
+
+
+
+  <!-- FB + Gremien-Tabs -->
+  <div class="row mb-4">
+    <div class="col-12 col-lg-10 offset-lg-1">
+      <div class="card border-0 results-filter-card">
+        <div class="card-body p-3 p-md-4 text-center">
+
+          <!-- Überschrift -->
+          <h2 class="mb-2">{{ 'results.selectFaculty.title' | transloco }}</h2>
+
+          <p class="htw-text-muted mb-3">
+            {{ 'results.selectFaculty.subtitle' | transloco }}
+          </p>
+
+
+          <!-- FB-Dropdown -->
+          <div class="d-flex justify-content-center mb-5 mt-4">
+            <div class="dropdown">
+              <button
+                class="btn btn-lg btn-primary dropdown-toggle"
+                type="button"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+                style="min-width: 300px;">
+                {{ facultyId ? getFacultyLabel() : 'results.selectFaculty.placeholder' | transloco }}
+              </button>
+              <ul class="dropdown-menu" style="min-width: 300px;">
+                <li *ngFor="let fb of facultyOptions">
+                  <a
+                    class="dropdown-item"
+                    href="#"
+                    [class.active]="facultyId === fb.id"
+                    (click)="selectFaculty($event, fb.id)">
+                    {{ fb.label }}
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+
+          <!-- Gremien-Buttons -->
+          <div class="results-committee-nav">
+            <ul class="nav nav-pills flex-nowrap justify-content-center gap-2 overflow-auto">
+              <li class="nav-item flex-shrink-0" *ngFor="let c of committees">
+                <button
+                  type="button"
+                  class="nav-link px-3 px-md-4 py-2 py-md-3 fs-6 fs-md-5 fw-semibold text-nowrap"
+                  [class.active]="activeCommitteeId === c.id"
+                  (click)="setActiveCommittee(c.id)">
+                  {{ c.label }}
+                </button>
+              </li>
+            </ul>
+          </div>
+
+
+          <!-- Fehlermeldung -->
+          <div class="mt-3" *ngIf="errorMessage">
+            <div class="alert alert-danger mb-0">
+              {{ errorMessage }}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+    <!-- ERGEBNISBEREICH -->
+    <div class="row">
+      <div class="col-12 col-lg-10 offset-lg-1">
+
+        <!-- Ladespinner -->
+        <div *ngIf="loading" class="text-center py-5">
+          <div class="spinner-border" role="status">
+            <span class="visually-hidden">{{ 'results.loading.spinner' | transloco}}</span>
+          </div>
+          <p class="mt-3 htw-text-dark">{{ 'results.loading.message' | transloco }}</p>
+        </div>
+
+        <!-- keine Ergebnisse  -->
+        <div
+          *ngIf="!loading && !errorMessage && visibleResults.length === 0 && facultyId != null"
+          class="card border-0 shadow-sm">
+          <div class="card-body text-center py-4">
+            <p class="mb-1 fw-semibold">
+              {{ 'results.noResults.title' | transloco }}
+            </p>
+            <p class="text-muted mb-0 small">
+              {{ 'results.noResults.message' | transloco }}
+            </p>
+          </div>
+        </div>
+
+        <!-- Kandidaten-Karten  -->
+        <div
+          *ngIf="!loading && !errorMessage && visibleResults.length > 0"
+          class="row g-3 results-candidate-grid">
+
+          <!-- Kopfzeile -->
+          <div class="col-12 d-flex justify-content-between align-items-center mb-4">
+            <h3 class="mb-0">{{ 'results.resultSection.title' | transloco : {'committee' : getCommitteeLabelForUi(activeCommitteeId)} }}</h3>
+
+            <div class="d-flex align-items-center gap-3">
+              <!-- Dropdown Anzahl Kandidierende -->
+              <div class="d-flex align-items-center gap-2">
+                <label class="form-label fw-semibold mb-0">
+                  {{ 'results.resultSection.candidateLimit' | transloco }}
+                </label>
+                <select
+                  class="form-select form-select-sm"
+                  style="width: auto;"
+                  [(ngModel)]="candidateLimit">
+                  <option
+                    *ngFor="let opt of candidateLimitOptions"
+                    [ngValue]="opt">
+                    {{ opt }}
+                  </option>
+                </select>
+              </div>
+
+              <!-- Download-Button -->
+              <button
+                type="button"
+                class="btn btn-sm fs-2"
+                (click)="downloadResult()"
+                [disabled]="visibleResults.length === 0">
+                <i class="bi bi-download"></i>
+              </button>
+            </div>
+          </div>
+
+
+
+              <!-- Single Candidate Card -->
+              <div *ngFor="let candidate of visibleResults">
+                <div class="card border-0 shadow-sm results-candidate-card">
+
+                  <!-- Progress Bar Header -->
+                  <div class="results-progress-header">
+                    <div
+                      class="results-progress-bar"
+                      [style.width.%]="candidate.matchingPercentage">
+                    </div>
+                    <span class="results-progress-text">
+                       {{ candidate.matchingPercentage | number:'1.1-1' }} %
+                    </span>
+                  </div>
+
+                  <!-- Info Section -->
+                  <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+
+                      <!-- Name + Liste -->
+                      <div class="d-flex align-items-baseline gap-2">
+                        <h3 class="candidate-name mb-0 fs-4">
+                          {{ candidate.firstname }} {{ candidate.lastname }}
+                        </h3>
+                        <span class="candidate-list htw-text-muted fs-6">
+                          @if (candidate.listName != null && candidate.listName !== '') {
+                            {{ 'results.candidate.listWithName' | transloco : {'listName': candidate.listName, 'listNumber': candidate.listNumber} }}
+                          } @else {
+                            {{ 'results.candidate.list' | transloco : {'listNumber': candidate.listNumber} }}
+                          }
+                        </span>
+                      </div>
+
+
+
+                      <div class="d-flex gap-2">
+                        <!-- Über mich -->
+                        <button
+                          type="button"
+                          class="btn results-icon-btn"
+                          (click)="toggleAbout(candidate)">
+                      <span class="results-icon-circle">
+                        <svg class="results-icon-svg" viewBox="0 0 16 16">
+                          <path d="M8 8a3 3 0 1 0-0.001-6.001A3 3 0 0 0 8 8zm4 1H4a2 2 0 0 0-2 2v2.5a.5.5 0 0 0 .5.5h11a.5.5 0 0 0 .5-.5V11a2 2 0 0 0-2-2z"/>
+                        </svg>
+                      </span>
+                        </button>
+
+                        <!-- Antworten -->
+                        <button
+                          type="button"
+                          class="btn results-icon-btn"
+                          (click)="toggleAnswers(candidate)">
+                          <span class="results-icon-circle">
+                            <span class="results-icon-symbol">?</span>
+                          </span>
+                        </button>
+                      </div>
+                    </div>
+
+                    <!-- Über mich Sektion -->
+                    <div
+                      class="results-section mt-3"
+                      *ngIf="expandedAboutId === candidate.candidateId">
+                      <h6 class="section-title mb-1">{{ 'results.candidate.aboutMe' | transloco }}</h6>
+                      <p class="mb-0 small" *ngIf="candidate.aboutMe; else noAbout">
+                        {{ candidate.aboutMe }}
+                      </p>
+                      <ng-template #noAbout>
+                        <p class="mb-0 small text-muted">
+                          {{ 'results.candidate.noAboutMe' | transloco }}
+                        </p>
+                      </ng-template>
+                    </div>
+
+                    <!-- Antworten Sektion -->
+                    <div
+                      class="results-section mt-3"
+                      *ngIf="expandedAnswersId === candidate.candidateId">
+                      <h6 class="section-title mb-1">{{ 'results.candidate.answers' | transloco }}</h6>
+                      <p
+                        class="mb-0 small text-muted"
+                        *ngIf="loadingAnswersFor === candidate.candidateId">
+                        {{ 'results.candidate.loadingAnswers' | transloco}}
+                      </p>
+                      <ng-container *ngIf="loadingAnswersFor !== candidate.candidateId">
+                        <ng-container *ngIf="candidateAnswers[candidate.candidateId]?.length; else noAnswers">
+                          <div class="answers-list">
+                            <div
+                              *ngFor="let a of candidateAnswers[candidate.candidateId]; let i=index; let last=last"
+                              class="answer-item"
+                              [class.border-bottom]="!last">
+                              <strong class="d-block mb-1">{{ i + 1 }}. {{ a.questionText }}</strong>
+                              <span class="htw-text-muted small bi-arrow-right">
+                                {{ mapAnswerOption($any(a.selectedOption)) }}
+                              </span>
+                            </div>
+                          </div>
+                        </ng-container>
+                      </ng-container>
+                      <ng-template #noAnswers>
+                        <p class="mb-0 small text-muted">
+                          {{ 'results.candidate.noAnswers' | transloco}}
+                        </p>
+                      </ng-template>
+                    </div>
+
+
+                  </div>
+                </div>
+              </div>
+
+
+            </div>
+          </div>
+        </div>
+      </div>
+

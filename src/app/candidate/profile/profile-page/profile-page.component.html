@@ -1,0 +1,328 @@
+<div class="container py-4" style="max-width: 860px;">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h2 class="fw-bold mb-0">Profil & Kandidaturen</h2>
+
+    <!-- Bearbeiten-Button nur im Read-Only-Modus -->
+    @if (!editMode()) {
+    <button class="btn btn-outline-success" (click)="enterEditMode()">
+      <i class="bi bi-pencil me-2"></i>Bearbeiten
+    </button>
+    }
+  </div>
+
+  <!-- errorMsg() und infoMsg() sind Signals aus der TS-Datei -->
+  @if (errorMsg()) {
+  <div class="alert alert-danger alert-dismissible fade show" role="alert">
+    <i class="bi bi-exclamation-triangle-fill me-2"></i>{{ errorMsg() }}
+  </div>
+  }
+  @if (infoMsg()) {
+  <div class="alert alert-success alert-dismissible fade show" role="alert">
+    <i class="bi bi-check-circle-fill me-2"></i>{{ infoMsg() }}
+  </div>
+  }
+
+  @if(!editMode()) {
+  <!-- Erklärungstext -->
+  <h6 class="text-muted mb-4">
+    Hier kannst du deine persönlichen Daten einsehen und deine Kandidaturen für die bevorstehenden Wahlen verwalten.
+    Klicke rechts auf "Bearbeiten", um Anpassungen vorzunehmen.
+  </h6>
+
+
+  <!-- Profil-Formular -->
+  <div class="card profile-card mb-4 shadow-sm">
+    <div class="card-body p-4">
+      <h5 class="card-title mb-3 text-success fw-bold">
+        <i class="bi bi-person-fill me-2"></i>Persönliche Daten
+      </h5>
+      <!-- Das gesamte Formular ist mit dem FormGroup "profileForm" verbunden.
+           Alle Inputs mit formControlName schreiben direkt in dieses FormGroup. -->
+      <form [formGroup]="profileForm" class="row g-3">
+        <div class="col-md-6">
+          <label class="form-label fw-semibold">Vorname</label>
+          <!-- formControlName="firstname" verbunden mit profileForm.controls.firstname -->
+          <input class="form-control" formControlName="firstname" placeholder="Max" />
+        </div>
+
+        <div class="col-md-6">
+          <label class="form-label fw-semibold">Nachname</label>
+          <input class="form-control" formControlName="lastname" placeholder="Mustermann" />
+        </div>
+
+        <div class="col-12">
+          <label class="form-label fw-semibold">Fachbereich</label>
+          <input class="form-control" formControlName="facultyId" />
+        </div>
+
+        <!-- Textfeld: Über mich -->
+        <div class="col-12">
+          <label class="form-label fw-semibold">Über mich</label>
+          <textarea class="form-control" rows="3" formControlName="aboutMe"
+            placeholder="Erzähle etwas über dich..."></textarea>
+        </div>
+      </form>
+    </div>
+  </div>
+
+
+  <!-- KANDIDATUREN -->
+  <div class="card profile-card mb-4 shadow-sm">
+    <div class="card-body p-4">
+      <h5 class="card-title mb-3 text-success fw-bold">
+        <i class="bi bi-card-checklist me-2"></i>Kandidaturen
+      </h5>
+
+
+      <!-- Liste der bereits hinzugefügten Kandidaturen -->
+      <div class="list-group">
+        @for (c of candidacies(); track trackById($index, c)) {
+        <div class="list-group-item list-group-item-action d-flex justify-content-between align-items-center bg-white">
+          <!-- Anzeige der Kandidatur-Daten -->
+          <div class="d-flex flex-wrap gap-2 align-items-center">
+            <!-- Anzeigename des Gremiums -->
+            <span class="badge badge-htw rounded-pill px-3 py-2 fw-bold">
+              {{ committeeName(c.committeeId) }}
+            </span>
+            <!-- Anzeigename der Liste -->
+            <span class="badge badge-htw rounded-pill px-3 py-2 fw-bold">
+              {{ listName(c.listId) }}
+            </span>
+          </div>
+        </div>
+        }
+
+        <!-- Zustand: noch keine Kandidaturen -->
+        @if (candidacies().length === 0) {
+        <div class="list-group-item text-center text-muted py-4">
+          <i class="bi bi-inbox fs-1 d-block mb-2"></i>
+          <p class="mb-0">Noch keine Kandidaturen vorhanden.</p>
+        </div>
+        }
+      </div>
+    </div>
+  </div>
+  }
+  <!-- Ende der Read-Only-Ansicht -->
+
+
+  <!-- Ansicht im Edit-Modus -->
+  @if (editMode()) {
+
+  <!-- Erklärungstext im Bearbeitungsmodus -->
+  <h6 class="mb-4">
+    Du befindest dich im Bearbeitungsmodus. Jegliche Änderungen (auch an den Kandidaturen) werden erst gespeichert, wenn
+    du unten auf "Speichern" klickst.
+    Mit "Abbrechen" verwirfst du alle ungespeicherten Änderungen.
+  </h6>
+
+  <!-- 1. Accordion: Persönliche Daten (standardmäßig geöffnet) -->
+  <div class="accordion mb-4" id="profileAccordion">
+    <div class="accordion-item shadow-sm">
+      <h5 class="accordion-header">
+        <button class="accordion-button fs-5" type="button" data-bs-toggle="collapse"
+          data-bs-target="#personalDataCollapse" aria-expanded="true" aria-controls="personalDataCollapse">
+          <i class="bi bi-person-fill me-2"></i>Persönliche Daten
+        </button>
+      </h5>
+      <div id="personalDataCollapse" class="accordion-collapse collapse show" data-bs-parent="#profileAccordion">
+        <div class="accordion-body p-4">
+          <form [formGroup]="profileForm" class="row g-3">
+            <div class="col-md-6">
+              <label class="form-label fw-semibold">Vorname</label>
+              <input class="form-control" formControlName="firstname" placeholder="Max" />
+            </div>
+
+            <div class="col-md-6">
+              <label class="form-label fw-semibold">Nachname</label>
+              <input class="form-control" formControlName="lastname" placeholder="Mustermann" />
+            </div>
+
+            <div class="col-12">
+              <label class="form-label fw-semibold">Fachbereich</label>
+              <select class="form-select" formControlName="facultyId">
+                @for (f of faculties; track f.id) {
+                <option [ngValue]="f.id">{{ f.name }}</option>
+                }
+              </select>
+            </div>
+
+            <div class="col-12">
+              <label class="form-label fw-semibold">Über mich</label>
+              <textarea class="form-control" rows="3" formControlName="aboutMe"
+                placeholder="Erzähle etwas über dich..."></textarea>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2. Accordion: Kandidaturen (standardmäßig geschlossen) -->
+  <div class="accordion mb-4" id="candidaciesAccordion">
+    <div class="accordion-item shadow-sm">
+      <h5 class="accordion-header">
+        <button class="accordion-button collapsed fs-5" type="button" data-bs-toggle="collapse"
+          data-bs-target="#candidaciesCollapse" aria-expanded="false" aria-controls="candidaciesCollapse">
+          <i class="bi bi-card-checklist me-2"></i>Kandidaturen
+        </button>
+      </h5>
+      <div id="candidaciesCollapse" class="accordion-collapse collapse" data-bs-parent="#candidaciesAccordion">
+        <div class="accordion-body p-4">
+          <!-- Zeile mit zwei Dropdowns und einem Button: Gremium, Liste, Hinzufügen -->
+          <div class="row g-2 mb-3">
+            <div class="col">
+              <label class="form-label fw-semibold">Gremium</label>
+              <select class="form-select" [formControl]="newCommitteeCtrl">
+                <option value="" disabled>Bitte wählen</option>
+                @for (c of availableCommittees; track c.committeeId) {
+                <option [value]="c.committeeId">{{ c.committeeName }}</option>
+                }
+              </select>
+            </div>
+
+            <div class="col">
+              <label class="form-label fw-semibold">Liste</label>
+              <select class="form-select" [formControl]="newListCtrl">
+                <option value="0" disabled>Bitte wählen</option>
+                @for (l of filteredLists; track l.listId) {
+                <option [ngValue]="l.listId">{{ formatListName(l) }}</option>
+                }
+              </select>
+            </div>
+
+            <div class="col-auto d-flex align-items-end">
+              <button class="btn btn-success" type="button" (click)="stageCandidacy()" [disabled]="!canStage()"
+                title="Kandidatur hinzufügen">
+                <i class="bi bi-plus-lg"></i>
+              </button>
+            </div>
+          </div>
+
+          <!-- Liste der Kandidaturen -->
+          <div class="list-group">
+            @for (c of candidacies(); track trackById($index, c)) {
+            <div
+              class="list-group-item list-group-item-action d-flex justify-content-between align-items-center bg-white">
+              <div class="d-flex flex-wrap gap-2 align-items-center">
+                <span class="badge badge-htw rounded-pill px-3 py-2 fw-bold">
+                  {{ committeeName(c.committeeId) }}
+                </span>
+                <span class="badge badge-htw rounded-pill px-3 py-2 fw-bold">
+                  {{ listName(c.listId) }}
+                </span>
+              </div>
+
+              <button class="btn btn-lg" type="button" (click)="removeRow(c)" title="Kandidatur entfernen">
+                <i class="bi bi-x-circle"></i>
+              </button>
+            </div>
+            }
+
+            @if (candidacies().length === 0) {
+            <div class="list-group-item text-center text-muted py-4">
+              <i class="bi bi-inbox fs-1 d-block mb-2"></i>
+              <p class="mb-0">Noch keine Kandidaturen vorhanden.</p>
+              <small>Bitte oben Gremium &amp; Liste wählen und mit <i class="bi bi-plus-lg"></i> hinzufügen.</small>
+            </div>
+            }
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3. Accordion: Passwort ändern (standardmäßig geschlossen) -->
+  <div class="accordion mb-4" id="passwordAccordion">
+    <div class="accordion-item shadow-sm">
+      <h5 class="accordion-header">
+        <button class="accordion-button collapsed fs-5" type="button" data-bs-toggle="collapse"
+          data-bs-target="#passwordCollapse" aria-expanded="false" aria-controls="passwordCollapse">
+          <i class="bi bi-lock-fill me-2"></i>Passwort ändern
+        </button>
+      </h5>
+      <div id="passwordCollapse" class="accordion-collapse collapse" data-bs-parent="#passwordAccordion">
+        <div class="accordion-body p-4">
+          <form [formGroup]="passwordForm" class="row g-3">
+            <!-- Aktuelles Passwort -->
+            <div class="col-12">
+              <label class="form-label fw-semibold">Aktuelles Passwort</label>
+              <input type="password" class="form-control" formControlName="currentPassword"
+                placeholder="Aktuelles Passwort eingeben"
+                [class.is-invalid]="passwordForm.get('currentPassword')?.invalid && passwordForm.get('currentPassword')?.touched" />
+              @if (passwordForm.get('currentPassword')?.invalid && passwordForm.get('currentPassword')?.touched) {
+              <div class="invalid-feedback d-block">
+                @if (passwordForm.get('currentPassword')?.errors?.['required']) {
+                Bitte aktuelles Passwort eingeben.
+                }
+                @if (passwordForm.get('currentPassword')?.errors?.['minlength']) {
+                Mindestens 6 Zeichen erforderlich.
+                }
+              </div>
+              }
+            </div>
+
+            <!-- Neues Passwort -->
+            <div class="col-12">
+              <label class="form-label fw-semibold">Neues Passwort</label>
+              <input type="password" class="form-control" formControlName="newPassword"
+                placeholder="Neues Passwort eingeben (min. 6 Zeichen)"
+                [class.is-invalid]="passwordForm.get('newPassword')?.invalid && passwordForm.get('newPassword')?.touched" />
+              @if (passwordForm.get('newPassword')?.invalid && passwordForm.get('newPassword')?.touched) {
+              <div class="invalid-feedback d-block">
+                @if (passwordForm.get('newPassword')?.errors?.['required']) {
+                Bitte neues Passwort eingeben.
+                }
+                @if (passwordForm.get('newPassword')?.errors?.['minlength']) {
+                Das Passwort muss mindestens 6 Zeichen lang sein.
+                }
+              </div>
+              }
+            </div>
+
+            <!-- Passwort wiederholen -->
+            <div class="col-12">
+              <label class="form-label fw-semibold">Passwort wiederholen</label>
+              <input type="password" class="form-control" formControlName="confirmPassword"
+                placeholder="Neues Passwort bestätigen"
+                [class.is-invalid]="(passwordForm.get('confirmPassword')?.invalid || passwordForm.errors?.['passwordMismatch']) && passwordForm.get('confirmPassword')?.touched" />
+              @if (passwordForm.get('confirmPassword')?.touched) {
+              <div class="invalid-feedback d-block">
+                @if (passwordForm.get('confirmPassword')?.errors?.['required']) {
+                Bitte Passwort wiederholen.
+                }
+                @if (passwordForm.get('confirmPassword')?.errors?.['minlength']) {
+                Mindestens 6 Zeichen erforderlich.
+                }
+                @if (passwordForm.errors?.['passwordMismatch'] &&
+                !passwordForm.get('confirmPassword')?.errors?.['required']) {
+                Die Passwörter stimmen nicht überein.
+                }
+              </div>
+              }
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Speichert Profil + Kandidaturen im Backend (nur im Bearbeitungsmodus) -->
+  <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+    <!-- Abbrechen-Button -->
+    <button class="btn btn-outline-secondary btn-lg px-4" (click)="cancelEdit()" [disabled]="savingAll()">
+      <i class="bi bi-x-lg me-2"></i>Abbrechen
+    </button>
+
+    <!-- Speichern-Button -->
+    <button class="btn btn-success btn-lg px-5" (click)="saveAll()" [disabled]="savingAll()">
+      @if (savingAll()) {
+      <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+      Wird gespeichert...
+      } @else {
+      Speichern
+      }
+    </button>
+  </div>
+  }
+</div>

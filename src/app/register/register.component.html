@@ -1,0 +1,208 @@
+<div class="container component-container py-4 register-container">
+  <h2 class="mt-5 mb-4 fw-bold text-center fs-1">{{ 'register.title' | transloco }}</h2>
+  <h6 class="mb-5 text-center text-muted">{{ 'register.subtitle' | transloco }}</h6>
+
+  <!-- errorMsg() und infoMsg() sind Signals aus der TS-Datei -->
+
+  @if (infoMsg()) {
+  <div class="alert alert-success alert-dismissible fade show" role="alert">
+    <i class="bi bi-check-circle-fill me-2"></i>{{ infoMsg() }}
+  </div>
+  }
+  @if (errorMsg()) {
+  <div class="alert alert-success alert-dismissible fade show" role="alert">
+    <i class="bi bi-check-circle-fill me-2"></i>{{ errorMsg() }}
+  </div>
+  }
+  <!-- Success Pop up-->
+  <div *ngIf="showSuccessPopup" class="modal">
+    <div class="modal-content">
+      <span class="close" (click)="closePopup()">&times;</span>
+      <p class="message-text">{{ successMsg }}</p>
+    </div>
+  </div>
+
+  <!-- Misserfolgs Pop up-->
+  <div *ngIf="showFailurePopup" class="failure modal">
+    <div class="failure-modal-content">
+      <span class="failureClose" (click)="closeFailurePopup()">&times;</span>
+      <p class="failureMessage-text">{{ failureMsg }}</p>
+    </div>
+  </div>
+
+
+  <!-- Reaktives Formular mithilfe einer FormGroup Instanz,welche alle mit formControl verwendeten Eingebaelemente verfolgt, auch über verschieden Cards hinweg-->
+
+  <form [formGroup]="profileForm" class="row g-3" (ngSubmit)="register()" >
+    <!-- hier nochmal gucken wie das ngSubmit in den Button kommt-->
+
+
+    <!-- PROFIL -->
+    <div class="card mb-4">
+      <div class="card-body p-4">
+        <h5 class="card-title mb-3 fw-bold">
+          <i class="bi bi-person-fill me-2"></i>{{ 'register.loginData.title' | transloco }}
+        </h5>
+
+
+
+
+        <div class="col-md-12">
+          <label class="form-label fw-semibold">{{ 'register.loginData.email' | transloco }}</label>
+          <input class="form-control mb-3" formControlName="email"
+            [placeholder]="'register.loginData.emailPlaceholder' | transloco"
+            [ngClass]="{'is-invalid': profileForm.get('email')?.invalid && profileForm.get('email')?.touched}" />
+        </div>
+        <!-- Fehleranzeige für ungültiges Email-Format -->
+        <div *ngIf="profileForm.get('email')?.hasError('htwEmail') && profileForm.get('email')?.touched"
+          class="text-danger">
+          <small>{{ 'register.loginData.emailInvalid' | transloco }}</small>
+        </div>
+
+
+
+        <div class="col-md-6">
+          <label class="form-label fw-semibold">{{ 'register.loginData.password' | transloco }}</label>
+          <input class="form-control mb-3" formControlName="password"
+            [ngClass]="{'is-invalid': profileForm.get('password')?.invalid && profileForm.get('password')?.touched}" />
+        </div>
+
+        <!-- Fehleranzeige für zu kurze Passwörter -->
+        <div *ngIf="profileForm.get('password')?.hasError('minlength') && profileForm.get('password')?.touched"
+          class="text-danger">
+          <small>{{ 'register.loginData.passwordMinLength' | transloco }}</small>
+        </div>
+
+
+        <div class="col-md-6">
+          <label class="form-label fw-semibold">{{ 'register.loginData.confirmPassword' | transloco }}</label>
+          <input class="form-control mb-3" formControlName="password_bestaetigen"
+            [ngClass]="{'is-invalid': profileForm.hasError('mustMatch') && profileForm.get('password_bestaetigen')?.touched}" />
+        </div>
+
+        <!-- Fehleranzeige für unterschiedliche Passwörter -->
+        <div
+          *ngIf="profileForm.get('password_bestaetigen')?.hasError('mustMatch') && profileForm.get('password_bestaetigen')?.touched"
+          class="text-danger">
+          <small>{{ 'register.loginData.confirmPasswordMismatch' | transloco }}</small>
+        </div>
+
+
+        <!-- </form> -->
+      </div>
+    </div>
+
+
+    <div class="card mb-4">
+      <div class="card-body p-4">
+        <h5 class="card-title mb-3 fw-bold">
+          <i class="bi bi-person-fill me-2"></i> {{ 'register.personalData.title' | transloco }}
+        </h5>
+        <div class="col-md-6">
+          <label class="form-label fw-semibold">{{ 'register.personalData.firstname' | transloco }}</label>
+          <input class="form-control mb-3" formControlName="firstname" />
+        </div>
+
+        <div class="col-md-6">
+          <label class="form-label fw-semibold">{{ 'register.personalData.lastname' | transloco }}</label>
+          <input class="form-control mb-3" formControlName="lastname" />
+        </div>
+
+        <div class="col-md-6">
+          <label class="form-label fw-semibold">{{ 'register.personalData.faculty' | transloco }}</label>
+          <select class="form-select mb-3" formControlName="facultyName"
+            [ngClass]="{'is-invalid': profileForm.get('facultyName')?.invalid && profileForm.get('facultyName')?.touched}">
+            <option [ngValue]="null" disabled selected>
+              {{ 'register.personalData.facultyPlaceholder' | transloco }}
+            </option>
+            <option *ngFor="let f of faculties" [ngValue]="f.id">{{ f.name }}</option>
+          </select>
+        </div>
+
+
+        <div class="col-md-12">
+          <label class="form-label fw-semibold">
+            {{ 'register.personalData.aboutMe' | transloco : {current: 500-(profileForm.get('aboutMe')?.value || '').length} }}
+          </label><!--Berechnung, wieviele Zeichen verbleiben, bei Fehler/ohne Wert -> leerer String-->
+          <textarea class="form-control mb-3" rows="3" formControlName="aboutMe" maxlength="500"
+            [placeholder]="'register.personalData.aboutMePlaceholder' | transloco"></textarea><!--Begrenzung Textfeld auch 500 Zeichen-->
+        </div>
+
+      </div>
+    </div>
+
+
+    <!-- Kandidaturen -->
+    <div class="card mb-4">
+      <div class="card-body p-4">
+        <h5 class="card-title mb-3 fw-bold">
+          <i class="bi bi-card-checklist me-2"></i>{{ 'register.candidacies.title' | transloco }}
+        </h5>
+        <div formGroupName="candidacies">
+          <div class="col-md-6">
+            <label class="form-label fw-semibold">{{ 'register.candidacies.committee' | transloco}}</label>
+            <select class="form-control mb-3" formControlName="committee">
+              <option [ngValue]="''" disabled selected>{{ 'register.candidacies.committeePlaceholder' | transloco }}</option>
+              <option *ngFor="let c of availableCommittees" [value]="c.committeeId">{{ c.committeeName }}</option>
+            </select>
+          </div>
+
+          <div class="col-md-6">
+            <label class="form-label fw-semibold">{{ 'register.candidacies.list' | transloco}}</label>
+            <select class="form-control mb-3" formControlName="list">
+              <option [ngValue]="0" disabled>{{ 'register.candidacies.listPlaceholder' | transloco}}</option>
+              <option *ngFor="let l of filteredList" [ngValue]="l.listId">{{ l.number}},{{ l.listName }}</option>
+            </select>
+          </div>
+
+          <div class="col-auto d-flex align-items-end">
+            <!-- Hinzufügen-Button eigenständig: fügt die ausgewählte Kombination (Gremium + Liste) zur Kandidaturen-Liste hinzu -->
+            <button class="btn btn-success mb-3" type="button" (click)="stageCandidacy()" [disabled]="!canStage()"
+              title="Kandidatur hinzufügen">
+              <i class="bi bi-plus-lg"></i>
+              {{ 'register.candidacies.addButton' | transloco }}
+            </button>
+          </div>
+        </div>
+
+        <!-- Liste der bereits hinzugefügten Kandidaturen -->
+        <div class="list-group">
+          <div *ngFor="let c of candidaciesSignal(); trackBy: trackById"
+            class="list-group-item list-group-item-action d-flex justify-content-between align-items-center bg-white">
+            <!-- Anzeige der Kandidatur-Daten -->
+            <div class="d-flex flex-wrap gap-2 align-items-center">
+              <!-- Anzeigename des Gremiums -->
+              <span class="badge badge-htw rounded-pill px-3 py-2 fw-bold">
+                {{ committeeName(c.committeeId) }}
+              </span>
+              <!-- Anzeigename der Liste -->
+              <span class="badge badge-htw rounded-pill px-3 py-2 fw-bold">
+                {{ listName(c.listId) }}
+              </span>
+            </div>
+
+            <!-- Lösch-Button pro Zeile: entfernt diese Kandidatur aus der Liste -->
+            <button class="btn btn-lg" type="button" (click)="removeCandidacy(c)" title="Kandidatur entfernen">
+              <i class="bi bi-x-circle"></i>
+            </button>
+          </div>
+
+          <!-- Zustand: noch keine Kandidaturen -->
+          <div *ngIf="candidaciesSignal().length === 0" class="list-group-item text-center text-muted py-4">
+            <i class="bi bi-inbox fs-1 d-block mb-2"></i>
+            <p class="mb-0">{{ 'register.candidacies.noCandidacies' | transloco}}</p>
+            <small>{{ 'register.candidacies.noCandidaciesHint' | transloco}}</small>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!--Über den Status (valid <> invalid) wird ermittelt, ob alle Pflichtfelder ausgefüllt sind, erst dann wird Button aktiviert -->
+    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+      <button class="btn btn-primary" type="submit" [disabled]="profileForm.invalid">
+        {{ 'register.actions.registerButton' | transloco }}
+      </button>
+    </div>
+  </form>
+</div>

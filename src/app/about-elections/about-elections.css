@@ -1,0 +1,230 @@
+.about-container {
+  position: relative;
+  min-height: 100vh;
+  padding-bottom: 1.5rem;
+  background:
+    linear-gradient(
+      120deg,
+      var(--htw-green-5) 0%,
+      var(--htw-green-10) 35%,
+      var(--htw-green-5) 70%
+    );
+  overflow: hidden;
+}
+
+
+.about-container::before,
+.about-container::after {
+  content: "";
+  position: absolute;
+  width: 55rem;
+  height: 55rem;
+  border-radius: 50%;
+  filter: blur(90px);
+  opacity: 0.45;
+  pointer-events: none;
+  z-index: 0;
+}
+
+
+.about-container::before {
+  background: radial-gradient(
+    circle,
+    rgba(118, 185, 0, 0.35),
+    rgba(118, 185, 0, 0)
+  );
+  top: -20%;
+  left: -15%;
+  animation: floatSlow 18s ease-in-out infinite;
+}
+
+
+.about-container::after {
+  background: radial-gradient(
+    circle,
+    rgba(118, 185, 0, 0.25),
+    rgba(118, 185, 0, 0)
+  );
+  bottom: -25%;
+  right: -20%;
+  animation: floatSlowReverse 22s ease-in-out infinite;
+}
+
+/* Animationen */
+@keyframes floatSlow {
+  0% { transform: translate(0, 0); }
+  50% { transform: translate(6%, 4%); }
+  100% { transform: translate(0, 0); }
+}
+
+@keyframes floatSlowReverse {
+  0% { transform: translate(0, 0); }
+  50% { transform: translate(-5%, -6%); }
+  100% { transform: translate(0, 0); }
+}
+
+
+@media (prefers-reduced-motion: reduce) {
+  .about-container::before,
+  .about-container::after {
+    animation: none;
+  }
+}
+
+/* Mobile: weniger Bewegung */
+@media (max-width: 768px) {
+  .about-container::before,
+  .about-container::after {
+    width: 38rem;
+    height: 38rem;
+    filter: blur(70px);
+    opacity: 0.35;
+  }
+}
+
+
+
+.about-hero {
+  position: relative;
+  background: transparent;
+  border-bottom: none !important; 
+  z-index: 1;
+}
+
+
+.about-container > * {
+  position: relative;
+  z-index: 1;
+}
+
+
+
+.about-title {
+  font-family: Verdana, sans-serif;
+  font-weight: 900;
+  color: var(--htw-green);
+  letter-spacing: -0.6px;
+  font-size: clamp(1.9rem, 4.6vw, 3.2rem);
+  line-height: 1.1;
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+
+.about-subtitle {
+  max-width: 60ch;
+  margin-inline: auto;
+  color: var(--htw-text-dark);
+  font-size: clamp(1rem, 1.7vw, 1.15rem);
+  line-height: 1.65;
+  opacity: 0.92;
+}
+
+
+.section-title {
+  font-family: Verdana, sans-serif;
+  font-weight: 900;
+  color: var(--htw-green);
+  font-size: clamp(1.2rem, 2.2vw, 1.55rem);
+  line-height: 1.2;
+  margin: 0;
+}
+
+.htw-card {
+  border: none !important;          
+  border-radius: 18px;
+  background-color: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(6px);
+
+  box-shadow:
+    0 8px 24px rgba(0, 0, 0, 0.06),
+    0 2px 8px rgba(0, 0, 0, 0.04);
+
+  transform: translateY(0) scale(1);
+  transition:
+    transform 220ms ease,
+    box-shadow 220ms ease,
+    background-color 220ms ease;
+}
+
+
+.htw-card:hover {
+  transform: translateY(-6px) scale(1.01);
+  box-shadow:
+    0 14px 36px rgba(0, 0, 0, 0.10),
+    0 6px 18px rgba(0, 0, 0, 0.06);
+  background-color: rgba(255, 255, 255, 0.98);
+}
+
+
+.section-title i {
+  display: inline-block;
+  transition: transform 220ms ease;
+}
+
+.htw-card:hover .section-title i {
+  transform: translateY(-1px) rotate(-3deg) scale(1.05);
+}
+
+
+
+.steps {
+  margin: 0;
+  padding-left: 1.15rem;
+}
+
+.steps li {
+  margin-bottom: 0.8rem;
+  color: #4b5563;
+  line-height: 1.6;
+}
+
+.steps strong {
+  color: var(--htw-text-dark);
+}
+
+.htw-card ul {
+  margin: 0;
+  padding-left: 1.1rem;
+}
+
+.htw-card ul li {
+  margin-bottom: 0.55rem;
+  color: #4b5563;
+  line-height: 1.6;
+}
+
+
+
+.btn-primary {
+  background-color: var(--htw-green);
+  border-color: var(--htw-green);
+  transition:
+    transform 200ms ease,
+    box-shadow 200ms ease,
+    background-color 200ms ease,
+    border-color 200ms ease;
+}
+
+.btn-primary:hover {
+  background-color: var(--htw-green-80);
+  border-color: var(--htw-green-80);
+  transform: translateY(-2px);
+  box-shadow: 0 12px 26px rgba(118, 185, 0, 0.22);
+}
+
+.btn-primary:active {
+  transform: translateY(0);
+  box-shadow: 0 6px 14px rgba(118, 185, 0, 0.18);
+}
+
+
+
+@media (max-width: 576px) {
+  .htw-card {
+    border-radius: 16px;
+  }
+
+  .htw-card:hover {
+    transform: translateY(-3px) scale(1.005);
+  }
+}

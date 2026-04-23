@@ -1,0 +1,458 @@
+{
+  "common": {
+    "save": "Speichern",
+    "cancel": "Abbrechen",
+    "delete": "Löschen",
+    "edit": "Bearbeiten",
+    "close": "Schließen",
+    "add": "Hinzufügen",
+    "search": "Suchen",
+    "details": "Details",
+    "back": "Zurück",
+    "confirm": "Bestätigen",
+    "total": "gesamt",
+    "logout": "Logout"
+  },
+
+  "candidateManagement": {
+    "inviteSection": {
+      "title": "Kandidierende einladen",
+      "emailLabel": "HTW-E-Mail-Adresse(n) eingeben",
+      "emailHint": "(Einzel- oder Mehrfacheingabe)",
+      "emailPlaceholder": "vorname.nachname@student.htw-berlin.de",
+      "inviteButton": "Einladen",
+      "tooltip": "Mit einer HTW-E-Mail-Adresse lädst du Studierende zur Registrierung als Kandidat:in ein. Einladungen laufen nach 90 Tagen ab und können jederzeit erneuert werden. Die Einladung berechtigt zur Registrierung.<br /><br />Erlaubte Formate:<br />• vorname.nachname@student.htw-berlin.de<br />• s0xxxxxx@htw-berlin.de<br /><br />Bulk Invite möglich. Mehrere E-Mails einfach in das Feld einfügen. Trennzeichen: Semikolon (;), Komma (,), Leerzeichen oder Zeilenumbrüche. Excel-Spalte kann direkt eingefügt werden. Duplikate werden ignoriert.",
+      "bulkSuccess": "Erfolgreich: {{count}}",
+      "bulkFailed": "Fehlgeschlagen: {{count}}",
+      "bulkFailedEmails": "Betroffene Adressen: {{emails}}"
+    },
+    "invitedList": {
+      "title": "Alle angelegten Einladungen",
+      "total": "gesamt",
+      "expandInvites": "Einladungen einblenden",
+      "collapseInvites": "Einladungen verbergen",
+      "noInvites": "Noch keine Einladungen vorhanden."
+    },
+    "registeredList": {
+      "title": "Kandidierende verwalten",
+      "searchPlaceholder": "Suche nach Name / E-Mail...",
+      "total": "gesamt",
+      "listTitle": "Alle registrierten Kandidierenden",
+      "expandList": "Liste einblenden",
+      "collapseList": "Liste einklappen",
+      "detailsButton": "Details",
+      "deleteButton": "Löschen",
+      "deleteAllButton": "Alle Kandidierenden löschen",
+      "tooltip": "Über 'Details' werden rechts Profil und Kandidaturen des ausgewählten Accounts angezeigt."
+    },
+    "profile": {
+      "title": "Profil von",
+      "email": "E-Mail:",
+      "editButton": "Bearbeiten",
+      "saveButton": "Speichern",
+      "cancelButton": "Abbrechen",
+      "loading": "Profil wird geladen ...",
+      "firstname": "Vorname",
+      "lastname": "Nachname",
+      "faculty": "Fachbereich",
+      "aboutMe": "Über mich",
+      "facultyWarning": "Wenn du den Fachbereich änderst, werden alle bestehenden Kandidaturen in fachbereichsabhängigen Gremien (FSR, FBR) gelöscht und müssen im Anschluss neu angelegt werden."
+    },
+    "candidacies": {
+      "title": "Kandidaturen",
+      "total": "gesamt",
+      "committee": "Gremium",
+      "list": "Liste",
+      "addNew": "Neue Kandidatur hinzufügen",
+      "selectCommittee": "Bitte wählen...",
+      "selectList": "Bitte wählen...",
+      "addButton": "Hinzufügen",
+      "deleteButton": "Löschen",
+      "noCandidacies": "Bisher keine Kandidaturen hinterlegt.",
+      "tooltip": "Wähle zuerst ein Gremium aus, danach werden passende Listen zu diesem Gremium angezeigt."
+    },
+    "placeholder": {
+      "noSelection": "Bitte links einen Kandidaten aus der Liste auswählen, um Profil & Kandidaturen zu bearbeiten.",
+      "tip": "Tipp: Mit der Suche kannst du schnell nach Name oder E-Mail filtern."
+    },
+    "deleteModal": {
+      "titleSingle": "Kandidat:in löschen",
+      "messageSingle": "Bist du sicher, dass du dieses Profil unwiderruflich löschen möchtest?",
+      "email": "E-Mail: ",
+      "titleAll": "Alle Kandidierenden löschen",
+      "messageAll": "Bist du sicher, dass du wirklich alle Kandidierenden unwiderruflich löschen möchtest?",
+      "cancelButton": "Abbrechen",
+      "confirmButton": "Löschen bestätigen"
+    }
+  },
+
+  "listManagement": {
+    "title": "Listenverwaltung",
+    "listsOf": "Listen des {{committeeId}}",
+    "table": {
+      "number": "Nummer",
+      "name": "Name",
+      "action": "Aktion"
+    },
+    "listNumber": "Liste {{number}}",
+    "deleteButton": "Löschen",
+    "noLists": "Für dieses Gremium wurden noch keine Listen angelegt.",
+    "addNew": {
+      "button": "Neue Liste hinzufügen",
+      "title": "Neue Liste anlegen:",
+      "numberPlaceholder": "Nr.",
+      "namePlaceholder": "Listenname",
+      "saveButton": "Speichern",
+      "cancelButton": "Abbrechen"
+    },
+    "deleteModal": {
+      "title": "Liste löschen",
+      "message": "Bist du sicher, dass du diese Liste löschen möchtest?",
+      "warning": "Eine Person hat bereits eine Kandidatur für diese Liste hinterlegt. Die verknüpfte Kandidatur wird ebenfalls unwiderruflich gelöscht.",
+      "warningPlural": "{{count}} Personen haben bereits eine Kandidatur für diese Liste hinterlegt. Die verknüpften Kandidaturen werden ebenfalls unwiderruflich gelöscht.",
+      "safeToDelete": "Diese Liste wird derzeit von keinen Kandidierenden verwendet und kann sicher gelöscht werden.",
+      "cancelButton": "Abbrechen",
+      "confirmButton": "Löschen bestätigen"
+    }
+  },
+
+  "questionManagement": {
+    "title": "Aussagenverwaltung",
+    "subtitle": "Hier kannst du die Aussagen, zu denen Kandidierende und Wahlomat-Nutzende sich positionieren werden, konfigurieren. Formuliere die Aussagen so neutral wie möglich.",
+    "addButton": "Aussage hinzufügen",
+    "addNew": {
+      "title": "Neue Aussage erstellen",
+      "placeholder": "Gib hier eine neutral formulierte Aussage ein...",
+      "cancelButton": "Abbrechen",
+      "saveButton": "Speichern"
+    },
+    "answersCount": "{{count}} / {{total}}",
+    "answersTooltip": "{{count}} Kandidierende haben bereits geantwortet",
+    "deleteTooltip": "Aussage löschen",
+    "noQuestions": "Noch keine Aussagen vorhanden. Starte, indem du eine neue Aussage hinzufügst.",
+    "deleteModal": {
+      "title": "Aussage löschen",
+      "message": "Bist du sicher, dass du diese Aussage löschen möchtest?",
+      "alert": "Achtung:",
+      "warning": "Eine Person hat sich bereits zu dieser Aussage positioniert. Diese Antwort wird unwiderruflich gelöscht.",
+      "warningPlural": "{{count}} Personen haben sich bereits zu dieser Aussage positioniert. Alle diese Antworten werden unwiderruflich gelöscht.",
+      "safeToDelete": "Diese Aussage ist noch unbeantwortet und kann sicher gelöscht werden.",
+      "cancelButton": "Abbrechen",
+      "confirmButton": "Löschen bestätigen"
+    }
+  },
+
+  "login": {
+    "title": "Login",
+    "emailLabel": "E-Mail Adresse",
+    "emailPlaceholder": "deine.email@htw-berlin.de",
+    "emailRequired": "Bitte gib deine E-Mail-Adresse ein.",
+    "emailInvalid": "Bitte gib eine gültige HTW-Mail-Adresse ein.",
+    "passwordLabel": "Passwort",
+    "passwordPlaceholder": "Passwort eingeben",
+    "loginButton": "Einloggen",
+    "noAccount": "Du hast noch kein Konto?",
+    "registerLink": "Hier registrieren",
+    "credentialsInvalid": "Die eingegebenen Anmeldedaten sind ungültig. Bitte überprüfe deine E-Mail-Adresse und dein Passwort."
+  },
+
+  "register": {
+    "title": "Registrierung",
+    "subtitle": "Beachte: Eine Registrierung ist nur möglich, nachdem ein Admin dich als Kandidat:in hinterlegt hat.",
+    "personalData": {
+      "title": "Persönliche Daten",
+      "firstname": "Vorname",
+      "firstnamePlaceholder": "z.B. Max",
+      "firstnameRequired": "Bitte gib deinen Vornamen ein.",
+      "lastname": "Nachname",
+      "lastnamePlaceholder": "z.B. Mustermann",
+      "lastnameRequired": "Bitte gib deinen Nachnamen ein.",
+      "faculty": "Fachbereich",
+      "facultyPlaceholder": "Bitte wählen",
+      "aboutMe": "Über mich ({{current}} Zeichen verbleibend)",
+      "aboutMePlaceholder": "Erzähle den Wählenden etwas über dich (optional, aber empfohlen)"
+    },
+    "candidacies": {
+      "title": "Kandidaturen",
+      "subtitle": "Gremium und Liste wählen",
+      "committee": "Gremium",
+      "committeePlaceholder": "Bitte wählen",
+      "list": "Liste",
+      "listPlaceholder": "Bitte wählen",
+      "addButton": "Hinzufügen",
+      "noCandidacies": "Bitte füge mindestens eine Kandidatur hinzu.",
+      "noCandidaciesHint": "Dafür oben Gremium & Liste wählen und mit + hinzufügen.",
+      "removeButton": "Kandidatur entfernen"
+    },
+    "loginData": {
+      "title": "Login-Daten",
+      "email": "E-Mail",
+      "emailPlaceholder": "deine.email@htw-berlin.de",
+      "emailRequired": "Bitte gib deine E-Mail-Adresse ein.",
+      "emailInvalid": "Bitte gib eine gültige HTW E-Mail-Adresse ein.",
+      "password": "Passwort",
+      "passwordPlaceholder": "Passwort eingeben (min. 6 Zeichen)",
+      "passwordRequired": "Bitte gib ein Passwort ein.",
+      "passwordMinLength": "Das Passwort muss mindestens 6 Zeichen lang sein.",
+      "confirmPassword": "Passwort wiederholen",
+      "confirmPasswordPlaceholder": "Passwort bestätigen",
+      "confirmPasswordRequired": "Bitte wiederhole dein Passwort.",
+      "confirmPasswordMismatch": "Die Passwörter stimmen nicht überein."
+    },
+    "actions": {
+      "backButton": "Zurück",
+      "registerButton": "Registrieren",
+      "registeringButton": "Wird registriert..."
+    },
+    "errorMsg": "{{message}}"
+  },
+
+  "questionList": {
+    "title": "Fragen",
+    "subtitle": "Positioniere dich zu den folgenden Aussagen. Deine Antworten werden gespeichert und Wählenden im Wahlomat angezeigt.",
+    "progress": {
+      "answered": "{{answered}} / {{total}} Fragen beantwortet",
+      "loading": "Fragen werden geladen..."
+    },
+    "noQuestions": "Es sind derzeit keine Fragen verfügbar.",
+    "questionNumber": "Frage {{number}}",
+    "options": {
+      "stronglyAgree": "Stimme voll zu",
+      "agree": "Stimme zu",
+      "neutral": "Neutral",
+      "disagree": "Stimme nicht zu",
+      "stronglyDisagree": "Stimme überhaupt nicht zu"
+    },
+    "weightQuestion": "Dieses Thema ist mir besonders wichtig (doppelte Gewichtung)",
+    "skipButton": "Frage überspringen",
+    "nextButton": "Weiter",
+    "previousButton": "Zurück",
+    "submitButton": "Absenden",
+    "saveButton": "Speichern",
+    "toast": {
+      "saved": "Antworten gespeichert",
+      "deleted": "Antwort gelöscht",
+      "error": "Fehler",
+      "info": "Info",
+      "close": "Schließen"
+    },
+    "warningModal": {
+      "title": "Unbeantwortete Fragen",
+      "message": "Sie haben <strong>{{answered}} von {{total}}</strong> Fragen beantwortet.",
+      "hint": "Bei der Ergebnisdarstellung werden nur vollständig beantwortete Profile berücksichtigt. Sie können die fehlenden Fragen aber später noch beantworten.",
+      "backButton": "Zurück zum Fragebogen",
+      "confirmButton": "Trotzdem speichern"
+    }
+  },
+
+  "results": {
+    "title": "Dein HTWahl-O-Mat Ergebnis",
+    "subtitle": "Wähle deinen Fachbereich und klicke auf die einzelnen Gremien, um dir deine persöhnlichen Wahlvorschläge anzusehen. Die Anzahl der angezeigten Kandidierenden kannst du bei Bedarf anpassen.",
+    "selectFaculty": {
+      "title": "Fachbereich wählen",
+      "subtitle": "Wird benötigt, um dir passende Kandidierende anzuzeigen",
+      "placeholder": "Bitte auswählen..."
+    },
+    "resultSection": {
+      "title": "Ergebnis für {{committee}}",
+      "downloadButton": "Herunterladen",
+      "candidateLimit": "Zeige:"
+    },
+    "loading": {
+      "spinner": "Lädt...",
+      "message": "Ergebnisse werden berechnet..."
+    },
+    "noResults": {
+      "title": "Keine Ergebnisse vorhanden",
+      "message": "Bitte stelle sicher, dass du dich zu allen Aussagen des Wahl-O-Maten positioniert hast."
+    },
+    "errorMessage": "{{error}}",
+    "candidate": {
+      "list": "(Liste {{listNumber}})",
+      "listWithName": "(Liste {{listNumber}} - {{listName}})",
+      "aboutMe": "Über mich",
+      "answers": "Positionen zu den Aussagen",
+      "noAboutMe": "Der/die Kandidat/in hat noch keinen \"Über mich\" Text hinterlegt.",
+      "noAnswers": "Für diese/n Kandidat/in sind noch keine Antworten gespeichert.",
+      "loadingAnswers": "Antworten werden geladen...",
+      "question": "Frage {{number}}: {{text}}",
+      "answer": "Antwort: {{option}}"
+    },
+    "answerOptions": {
+      "stronglyAgree": "Stimme voll zu",
+      "agree": "Stimme zu",
+      "neutral": "Neutral",
+      "disagree": "Stimme nicht zu",
+      "stronglyDisagree": "Stimme überhaupt nicht zu",
+      "skipped": "Übersprungen"
+    }
+  },
+
+  "navbar": {
+    "brand": "HTWahl-O-Mat",
+    "profile": "Profil",
+    "statements": "Aussagen",
+    "questionManagement": "Aussagenverwaltung",
+    "candidateManagement": "Kandidatenverwaltung",
+    "listManagement": "Listenverwaltung",
+    "darkModeToggle": "Dark/Light Mode umschalten",
+    "languageToggle": "Sprache wechseln"
+  },
+
+
+  "footer": {
+    "imprint": "Impressum",
+    "aboutElections": "Über die Wahlen",
+    "login": "Login",
+    "logoAlt": "HTW Berlin Logo"
+  },
+
+  "home": {
+    "title": "HTWahl-O-Mat",
+    "subtitle": "Bei ca. 14.500 Studierenden ist es unmöglich, alle Kandidat:innen zu kennen. Mit dem Wahl-O-Mat der HTW Berlin kannst du deine Positionen zu Hochschulthemen mit denen der Kandidat:innen vergleichen.",
+    "disclaimer": "Der HTWahl-O-Mat ist keine Wahlempfehlung, sondern ein Informationsangebot über Wahlen und Politik.",
+    "startButton": "Los geht's"
+  },
+
+  "answerList": {
+    "title": "Aussagen",
+    "progress": {
+      "loading": "Aussagen werden geladen...",
+      "loadingSpinner": "Lädt..."
+    },
+    "noQuestions": "Es sind noch keine Aussagen verfügbar.",
+    "questionBadge": "{{number}}",
+    "options": {
+      "stronglyAgree": "Stimme stark zu",
+      "agree": "Stimme zu",
+      "neutral": "Neutral",
+      "disagree": "Stimme nicht zu",
+      "stronglyDisagree": "Stimme überhaupt nicht zu"
+    },
+    "sendButton": "Senden",
+    "saveButton": "Speichern",
+    "toast": {
+      "success": "Erfolgreich gesendet",
+      "info": "Info",
+      "error": "Fehler",
+      "close": "Close"
+    },
+    "warningModal": {
+      "title": "Unbeantwortete Fragen",
+      "message": "Du hast {{answered}} von {{total}} Fragen beantwortet.",
+      "hint": "Hinweis: ",
+      "hintText": "Bei der Darstellung der Kandidierenden im HTWahl-O-Maten werden nur vollständig beantwortete Profile berücksichtigt. Du kannst die fehlenden Fragen aber später noch beantworten.",
+      "backButton": "Zurück zum Fragebogen",
+      "confirmButton": "Trotzdem speichern"
+    }
+  },
+
+  "profile": {
+    "title": "Profil & Kandidaturen",
+    "editButton": "Bearbeiten",
+    "description": "Hier kannst du deine persönlichen Daten einsehen und deine Kandidaturen für die bevorstehenden Wahlen verwalten. Klicke rechts auf \"Bearbeiten\", um Anpassungen vorzunehmen.",
+    "editModeDescription": "Du befindest dich im Bearbeitungsmodus. Jegliche Änderungen (auch an den Kandidaturen) werden erst gespeichert, wenn du unten auf \"Speichern\" klickst. Mit \"Abbrechen\" verwirfst du alle ungespeicherten Änderungen.",
+    "personalData": {
+      "title": "Persönliche Daten",
+      "firstname": "Vorname",
+      "firstnamePlaceholder": "Vornamen angeben...",
+      "lastname": "Nachname",
+      "lastnamePlaceholder": "Nachnamen angeben...",
+      "faculty": "Fachbereich",
+      "aboutMe": "Über mich",
+      "aboutMePlaceholder": "Erzähle den Wählenden etwas über dich..."
+    },
+    "candidacies": {
+      "title": "Kandidaturen",
+      "committee": "Gremium",
+      "list": "Liste",
+      "selectCommittee": "Bitte wählen",
+      "selectList": "Bitte wählen",
+      "addButton": "Kandidatur hinzufügen",
+      "removeButton": "Kandidatur entfernen",
+      "noCandidacies": "Bitte füge mindestens eine Kandidatur hinzu.",
+      "noCandidaciesHint": "Dafür oben Gremium & Liste wählen und mit + hinzufügen."
+    },
+    "password": {
+      "title": "Passwort ändern",
+      "currentPassword": "Aktuelles Passwort",
+      "currentPasswordPlaceholder": "Aktuelles Passwort eingeben",
+      "newPassword": "Neues Passwort",
+      "newPasswordPlaceholder": "Neues Passwort eingeben (min. 6 Zeichen)",
+      "confirmPassword": "Passwort wiederholen",
+      "confirmPasswordPlaceholder": "Neues Passwort bestätigen",
+      "validation": {
+        "currentRequired": "Bitte aktuelles Passwort eingeben.",
+        "currentMinLength": "Mindestens 6 Zeichen erforderlich.",
+        "newRequired": "Bitte neues Passwort eingeben.",
+        "newMinLength": "Das Passwort muss mindestens 6 Zeichen lang sein.",
+        "confirmRequired": "Bitte Passwort wiederholen.",
+        "confirmMinLength": "Mindestens 6 Zeichen erforderlich.",
+        "mismatch": "Die Passwörter stimmen nicht überein."
+      }
+    },
+    "actions": {
+      "cancelButton": "Abbrechen",
+      "saveButton": "Speichern",
+      "saving": "Wird gespeichert..."
+    }
+  },
+  "aboutElectionsPage": {
+    "hero": {
+      "title": "Über die Wahlen an der HTW Berlin",
+      "subtitle": "Hier erfährst du, wie die Gremienwahlen an der HTW Berlin funktionieren und warum deine Stimme zählt."
+    },
+    "whatIsElected": {
+      "title": "Was wird gewählt?",
+      "description": "Bei den Gremienwahlen wählen Studierende ihre Vertreterinnen und Vertreter in hochschulischen Gremien. Diese Gremien wirken an Entscheidungen zu Studium, Lehre, Organisation und studentischen Belangen mit."
+    },
+    "howItWorks": {
+      "title": "Wie funktioniert der HTWahl-O-Mat?",
+      "step1": "<strong>Fragen beantworten:</strong> Du beantwortest eine Reihe von hochschulpolitischen Fragen.",
+      "step2": "<strong>Positionen vergleichen:</strong> Deine Antworten werden mit denen der Kandidierenden verglichen.",
+      "step3": "<strong>Ergebnis erhalten:</strong> Du siehst, welche Kandidierenden am besten zu deinen Positionen passen."
+    },
+    "whyParticipate": {
+      "title": "Warum ist deine Teilnahme wichtig?",
+      "reason1": "Mehr Beteiligung stärkt die studentische Mitbestimmung.",
+      "reason2": "Ergebnisse werden aussagekräftiger und repräsentativer.",
+      "reason3": "Du gestaltest aktiv dein Studienumfeld mit."
+    },
+    "startButton": "Jetzt starten"
+  },
+
+  "impressumPage": {
+    "title": "Impressum",
+    "subtitle": "Angaben gemäß § 5 TMG",
+    "provider": {
+      "title": "Angaben zum Diensteanbieter"
+    },
+    "representative": {
+      "title": "Vertreten durch"
+    },
+    "vatId": {
+      "title": "Umsatzsteuer-ID",
+      "description": "Umsatzsteuer-Identifikationsnummer gemäß §27 a Umsatzsteuergesetz:"
+    },
+    "responsible": {
+      "title": "Inhaltlich verantwortlich"
+    },
+    "contentLiability": {
+      "title": "Haftung für Inhalte"
+    },
+    "linkLiability": {
+      "title": "Haftung für Links"
+    },
+    "copyright": {
+      "title": "Urheberrecht"
+    }
+  },
+
+  "pageNotFound": {
+    "title": "Seite nicht gefunden",
+    "errorCode": "404",
+    "message": "Die Seite, die du suchst, existiert leider nicht.",
+    "suggestion": "Vielleicht hast du dich vertippt oder die Seite wurde verschoben?",
+    "homeButton": "Zurück zur Startseite"
+  }
+}

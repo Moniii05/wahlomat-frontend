@@ -1,0 +1,55 @@
+/* Profile Page Specifics */
+.profile-card {
+  background-color: var(--htw-green-10) !important;
+  border: 1px solid var(--htw-green) !important;
+  border-radius: var(--htw-radius) !important;
+}
+
+.profile-card-header {
+  background-color: transparent !important;
+  border-bottom: none;
+}
+.card-title {
+  color: var(--htw-green) !important;
+}
+
+.accordion-item {
+  border: 1px solid var(--htw-green);
+  border-radius: var(--htw-radius);
+  overflow: hidden;
+  margin-bottom: 1rem;
+}
+
+.accordion-button {
+  background-color: var(--htw-green-5) !important;
+  color: var(--htw-green) !important;
+  font-weight: bold;
+  box-shadow: none !important;
+}
+
+.accordion-button:not(.collapsed) {
+  background-color: var(--htw-green-10) !important;
+  color: var(--htw-green) !important;
+}
+
+.accordion-body {
+  background-color: white;
+}
+
+/* Deaktivierte Formularfelder und Dropdowns weiß darstellen */
+.form-control:disabled,
+.form-select:disabled,
+textarea.form-control:disabled {
+  background-color: #ffffff !important;
+  opacity: 1 !important;
+  cursor: default;
+  color: var(--htw-text-dark);
+  border-color: var(--htw-border);
+}
+
+/* Badge Tweaks */
+.badge-htw {
+  background-color: var(--htw-green-10);
+  color: var(--htw-text-dark);
+  border: 1px solid var(--htw-green);
+}

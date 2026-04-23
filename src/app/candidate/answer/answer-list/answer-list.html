@@ -1,0 +1,155 @@
+<!-- Container --->
+<div class="container-fluid component-container">
+  <!-- Main Content -->
+  <div class="row justify-content-center mt-4">
+    <div class="col-12 col-lg-8">
+
+      <!-- Progress Info -->
+      <div class="card mb-3 border-0 shadow-sm" style="background-color: var(--htw-green-5);">
+        <div class="card-body">
+          <h4 class="card-title fw-bold" style="color: var(--htw-green);">
+            {{ 'answerList.title' | transloco }}
+          </h4>
+          <p class="mb-0 text-muted">
+            <strong>{{ getAnsweredCount() }}</strong> / <strong>{{ questions.length }}</strong>
+          </p>
+          <div class="progress mt-2 answer-list-progress">
+            <div class="progress-bar answer-list-bar" role="progressbar"
+              [style.width.%]="(getAnsweredCount() / questions.length) * 100" [attr.aria-valuenow]="getAnsweredCount()"
+              [attr.aria-valuemin]="0" [attr.aria-valuemax]="questions.length"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Loading Spinner -->
+      @if (isLoading) {
+      <div class="text-center py-5">
+        <div class="spinner-border text-success" role="status" style="width: 3rem; height: 3rem;">
+          <span class="visually-hidden">{{ 'answerList.progress.loadingSpinner' | transloco }}</span>
+        </div>
+        <p class="mt-3 text-muted">{{ 'answerList.progress.loading' | transloco }}</p>
+      </div>
+      }
+
+      <!-- Keine Fragen vorhanden -->
+      @if (!isLoading && questions.length === 0) {
+      <div class="alert alert-info">
+        <i class="bi bi-info-circle"></i> {{ 'answerList.noQuestions' | transloco }}
+      </div>
+      }
+
+      <!-- Aussagen-Liste (Scrollable) -->
+      @if (!isLoading && questions.length > 0) {
+      <div class="questions-container">
+
+        <!-- Einzelne Aussage -->
+        @for (question of questions; track question.questionId; let i = $index) {
+        <div class="card mb-3 question-card" [class.answered]="selectedAnswers.has(question.questionId)">
+          <div class="card-body">
+
+            <!-- Aussage Header -->
+            <div class="d-flex align-items-start mb-4">
+              <span class="badge rounded-circle question-badge me-3">{{ i + 1 }}</span>
+              <h5 class="flex-grow-1 mb-0">{{ question.questionText }}</h5>
+
+            </div>
+
+            <!-- Antwort-Buttons -->
+            <div class="d-flex flex-column gap-2">
+              @for (option of answerOptions; track option) {
+              <button type="button"
+                class="btn w-100 text-start d-flex align-items-center justify-content-between btn-option"
+                [class.selected]="isSelected(question.questionId, option)"
+                (click)="onAnswerChange(question.questionId, option)" style="min-height: 48px; padding: 12px 16px;">
+                <span>{{ getOptionLabel(option) }}</span>
+                @if (isSelected(question.questionId, option)) {
+                <i class="bi bi-check-circle-fill"></i>
+                }
+              </button>
+              }
+            </div>
+
+          </div>
+        </div>
+        }
+
+        <!-- Save Message -->
+        @if (saveMessage) {
+          <div class="position-fixed top-0 end-0 p-3" style="z-index: 9999;">
+            <div class="toast show" role="alert">
+              <div class="toast-header"
+                [class.bg-dark]="saveMessage.includes('gespeichert') || saveMessage.includes('gelöscht')"
+                [class.bg-success]="!saveMessage.includes('gespeichert') && !saveMessage.includes('Fehler')"
+                [class.bg-danger]="saveMessage.includes('Fehler')"
+                [class.text-white]="true">
+                <strong class="me-auto">
+                  @if (saveMessage.includes('gespeichert') || saveMessage.includes('gelöscht')) {
+                  {{ 'answerList.toast.info' | transloco }}
+                  } @else if (saveMessage.includes('Fehler')) {
+                  {{ 'answerList.toast.error' | transloco }}
+                  } @else {
+                  {{ 'answerList.toast.success' | transloco }}
+                  }
+                </strong>
+              <button type="button" class="btn-close"
+                [class.btn-close-white]="saveMessage.includes('gespeichert') || (!saveMessage.includes('Fehler'))"
+                (click)="saveMessage = ''"
+                aria-label="Close"></button>
+            </div>
+            <div class="toast-body">
+               {{ saveMessage }}
+            </div>
+          </div>
+        </div>
+        }
+
+        <!-- Weiter/Speichern Button -->
+        <div class="sticky-bottom bg-white border-top p-3 text-center sticky-bottom-bar">
+          <button class="btn btn-primary btn-lg px-4"
+            [attr.data-bs-toggle]="selectedAnswers.size > 0 && selectedAnswers.size < questions.length ? 'modal' : null"
+            [attr.data-bs-target]="selectedAnswers.size > 0 && selectedAnswers.size < questions.length ? '#warningModal' : null"
+            (click)="saveAnswers()" [disabled]="isLoading || selectedAnswers.size === 0">
+            @if (selectedAnswers.size === questions.length) {
+            <span>{{ 'answerList.sendButton' | transloco }}</span>
+            }
+            @if (selectedAnswers.size < questions.length) { <span>{{ 'answerList.saveButton' | transloco }}</span>
+              }
+          </button>
+        </div>
+
+      </div>
+      }
+    </div>
+  </div>
+
+      <!-- Warning Modal für unbeantwortete Fragen -->
+      <div class="modal fade" id="warningModal" tabindex="-1" aria-labelledby="warningModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content">
+            <div class="modal-header bg-warning text-dark">
+              <h5 class="modal-title" id="warningModalLabel">
+                {{ 'answerList.warningModal.title' | transloco }}
+              </h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <p class="mb-3">
+                {{ 'answerList.warningModal.message' | transloco: { answered: getAnsweredCount(), total: questions.length } }}
+              </p>
+              <div class="alert mb-0">
+                <strong>{{ 'answerList.warningModal.hint' | transloco }}</strong> {{ 'answerList.warningModal.hintText' | transloco }}
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                {{ 'answerList.warningModal.backButton' | transloco }}
+              </button>
+              <button type="button" class="btn btn-warning" data-bs-dismiss="modal"
+                (click)="confirmSaveWithMissingAnswers()">
+                {{ 'answerList.warningModal.confirmButton' | transloco }}
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+</div>

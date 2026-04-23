@@ -1,0 +1,129 @@
+<div class="container component-container qm-page mt-5" style="max-width: 900px;">
+
+
+  <div class="text-center mb-5">
+    <h1 class="qm-title">{{ 'questionManagement.title' | transloco }}</h1>
+    <p class="qm-subtitle text-muted mx-auto" style="max-width: 700px;">
+      {{ 'questionManagement.subtitle' | transloco }}
+    </p>
+
+    <!-- Neue Frage hinzufügen Button (always visible, aligned right as requested/implied by previous layout) -->
+    <div class="d-flex justify-content-end mt-4">
+      <button class="btn btn-primary" (click)="startAddQuestion()">
+        <i class="bi bi-plus-lg me-2"></i>
+        {{ 'questionManagement.addButton' | transloco }}
+      </button>
+    </div>
+  </div>
+
+  <!-- Eingabebereich -->
+  @if(showAddQuestionArea)
+  {
+  <div class="qm-add-box mb-5 shadow-sm">
+    <h5 class="text-success fw-bold mb-3"><i class="bi bi-pencil-square me-2"></i>{{ 'questionManagement.addNew.title' | transloco }}</h5>
+    <input type="text" class="form-control form-control-lg bg-white"
+      [placeholder]="'questionManagement.addNew.placeholder' | transloco" #newQuestionInput
+      (keyup.enter)="addQuestion(newQuestionInput.value); newQuestionInput.value=''">
+
+    <div class="mt-4 d-flex justify-content-end gap-2">
+      <button class="btn btn-outline-secondary px-4" (click)="cancelAddQuestion()">
+        {{ 'questionManagement.addNew.cancelButton' | transloco }}
+      </button>
+      <button class="btn btn-success px-4 fw-bold"
+        (click)="addQuestion(newQuestionInput.value); newQuestionInput.value=''">
+        <i class="bi bi-check-lg me-2"></i>{{ 'questionManagement.addNew.saveButton' | transloco }}
+      </button>
+    </div>
+  </div>
+  }
+
+  <!-- Fragenliste -->
+  <div class="d-flex flex-column gap-3">
+    @for(question of questions(); track question.questionId) {
+    <div class="card qm-card shadow-sm">
+      <div class="card-body p-4">
+        <div class="d-flex justify-content-between align-items-center">
+
+          <!-- Aussagetext -->
+          <div class="flex-grow-1 me-4">
+            <h5 class="mb-0 fw-normal text-dark">{{ question.question }}</h5>
+          </div>
+
+          <!-- Rechte Seite: Stats + Delete -->
+          <div class="d-flex align-items-center gap-4">
+            <!-- Antwort-Anzahl Anzeige -->
+            @if (question.answersCount !== undefined && question.answersCount >= 0) {
+            <div class="qm-badge-count" title=" {{ 'questionManagement.answersTooltip' | transloco : { count: question.answersCount } }}">
+              <i class="bi bi-people-fill text-success"></i>
+              <span>{{ question.answersCount }} / {{candidateCount}}</span>
+            </div>
+            }
+
+            <button class="btn btn-link p-0 btn-trash" title="{{ 'questionManagement.deleteTooltip' | transloco }}"
+              (click)="openDeleteDialog(question.questionId)" data-bs-toggle="modal"
+              data-bs-target="#deleteConfirmModal">
+              <i class="bi bi-trash3"></i>
+            </button>
+          </div>
+
+        </div>
+      </div>
+    </div>
+    }
+    @empty {
+    <div class="text-center text-muted py-5">
+      <i class="bi bi-card-text fs-1 d-block mb-3 opacity-25"></i>
+      <p>{{ 'questionManagement.noQuestions' | transloco }}</p>
+    </div>
+    }
+
+  </div>
+</div>
+
+<!-- Confirmation Modal für Löschen -->
+<div id="deleteConfirmModal" class="modal fade" tabindex="-1" aria-labelledby="deleteConfirmModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content border-0 shadow-lg">
+      <div class="modal-header bg-danger text-white">
+        <h5 class="modal-title" id="deleteConfirmModalLabel">
+          <i class="bi bi-exclamation-triangle-fill me-2"></i>{{ 'questionManagement.deleteModal.title' | transloco }}
+        </h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body p-4">
+        <p class="fs-5 fw-semibold mb-3">{{ 'questionManagement.deleteModal.message' | transloco }}</p>
+
+        <div class="alert alert-light border mb-0">
+          @if (existingAnswersCount > 0) {
+            <div class="d-flex text-danger">
+              <i class="bi bi-exclamation-circle-fill fs-4 me-3 flex-shrink-0"></i>
+              <div>
+                <strong>{{ 'questionManagement.deleteModal.alert' | transloco}}</strong><br>
+                @if(existingAnswersCount === 1) {
+                  {{ 'questionManagement.deleteModal.warning' | transloco }}
+                } @else {
+                  {{ 'questionManagement.deleteModal.warningPlural' | transloco : { count: existingAnswersCount } }}
+                }
+              </div>
+            </div>
+          } @else {
+            <div class="d-flex text-success">
+              <i class="bi bi-check-circle-fill fs-4 me-3 flex-shrink-0"></i>
+              <div>
+                {{ 'questionManagement.deleteModal.safeToDelete' | transloco }}
+              </div>
+            </div>
+          }
+
+        </div>
+
+      </div>
+      <div class="modal-footer bg-light">
+        <button type="button" class="btn btn-outline-secondary px-4" data-bs-dismiss="modal">{{ 'questionManagement.deleteModal.cancelButton' | transloco }}</button>
+        <button type="button" class="btn btn-danger px-4 fw-bold" (click)="confirmDelete()"
+          data-bs-dismiss="modal">{{ 'questionManagement.deleteModal.confirmButton' | transloco }}</button>
+      </div>
+    </div>
+  </div>
+</div>

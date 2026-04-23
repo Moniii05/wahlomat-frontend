@@ -1,0 +1,232 @@
+.cm-page {
+  min-height: 100vh;
+  background-color: var(--htw-bg-base);
+  background: var(--htw-bg-base);
+}
+
+/* Karten-Styling  */
+.cm-card {
+  border: none;
+  border-radius: 1rem;
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.05);
+}
+
+/* Titel + Untertitel */
+.cm-title {
+  font-weight: 700;
+  letter-spacing: 0.03em;
+}
+
+.cm-subtitle {
+  font-size: 0.9rem;
+  color: #6c757d;
+}
+
+/* Badge mit Anzahl */
+.cm-count-badge {
+  font-size: 0.8rem;
+}
+
+/* Invite-Formular */
+.cm-invite-form .form-label {
+  font-weight: 500;
+}
+
+/* Liste */
+.cm-list {
+  border-radius: 0.75rem;
+  overflow: hidden;
+}
+
+.cm-list-item {
+  border: 0;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.cm-list-item:last-child {
+  border-bottom: 0;
+}
+
+/* aktiver Kandidat in Liste */
+.cm-list-item-active {
+  background-color: #d1e7dd;
+  /* Bootstrap success-subtle */
+  border-left: 4px solid #198754;
+}
+
+/* Name + E-Mail im Listeneintrag */
+.cm-candidate-main {
+  min-width: 0;
+}
+
+.cm-candidate-name {
+  font-weight: 600;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+.cm-candidate-email {
+  font-size: 0.8rem;
+  color: #6c757d;
+}
+
+/* Buttons rechts sollen nicht aneinander kleben */
+.cm-actions .btn {
+  white-space: nowrap;
+}
+
+
+/* Layout & Container */
+.cm-page {
+  /* Merged with top rule */
+  min-height: 100vh;
+}
+
+/* Karten-Styling (HTW-Stil) */
+.cm-card {
+  border: 1px solid var(--htw-border);
+  border-radius: var(--htw-radius);
+  background-color: var(--htw-bg-card);
+}
+
+/* Titel */
+.cm-title {
+  font-weight: 700;
+  color: var(--htw-green);
+}
+
+.cm-subtitle {
+  font-size: 0.9rem;
+  color: var(--htw-text-muted);
+}
+
+/* Info-Icon ? */
+.cm-info-icon {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 1px solid var(--htw-text-muted);
+  color: var(--htw-text-muted);
+  font-size: 0.75rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.cm-info-icon:hover {
+  background-color: var(--htw-text-muted);
+  color: #fff;
+}
+
+/* Tooltip */
+.cm-info-tooltip {
+  visibility: hidden;
+  opacity: 0;
+  position: absolute;
+  top: 120%;
+  /* Position below */
+  left: 50%;
+  transform: translateX(-50%) translateY(0);
+  background-color: #333;
+  color: #fff;
+  padding: 0.5rem 0.75rem;
+  border-radius: 4px;
+  width: 220px;
+  font-size: 0.8rem;
+  font-weight: normal;
+  text-align: left;
+  z-index: 10;
+  transition: opacity 0.2s;
+  pointer-events: none;
+}
+
+.cm-info-icon:hover .cm-info-tooltip {
+  visibility: visible;
+  opacity: 1;
+}
+
+.cm-info-icon-danger {
+  border-color: #dc3545;
+  color: #dc3545;
+}
+
+.cm-info-icon-danger:hover {
+  background-color: #dc3545;
+}
+
+/* Badges */
+.cm-count-badge {
+  font-weight: 600;
+  background-color: var(--htw-bg-light) !important;
+  color: var(--htw-text-dark) !important;
+  border: 1px solid var(--htw-border);
+}
+
+.cm-tag-mail {
+  background-color: var(--htw-green-10);
+  color: var(--htw-green-dark);
+  padding: 0.1rem 0.4rem;
+  border-radius: 4px;
+  font-weight: 500;
+}
+
+/* Liste (Links) */
+.cm-list {
+  max-height: 400px;
+  /* Scrollbar bei vielen Einträgen */
+  overflow-y: auto;
+  border: 1px solid var(--htw-border);
+  border-radius: var(--htw-radius);
+}
+
+.cm-list-item {
+  border: none;
+  border-bottom: 1px solid var(--htw-border);
+  transition: background-color 0.15s;
+  cursor: pointer;
+}
+
+.cm-list-item:last-child {
+  border-bottom: none;
+}
+
+.cm-list-item:hover {
+  background-color: var(--htw-bg-light);
+}
+
+.cm-list-item-active {
+  background-color: var(--htw-green-10) !important;
+  border-left: 4px solid var(--htw-green) !important;
+}
+
+.cm-candidate-name {
+  font-weight: 600;
+  color: var(--htw-text-dark);
+}
+
+.cm-candidate-email {
+  font-size: 0.85rem;
+  color: var(--htw-text-muted);
+}
+
+/* Zeile Kandidatur (Rechts) */
+.cm-candidacy-row {
+  background-color: var(--htw-bg-card);
+  border-color: var(--htw-border) !important;
+}
+
+.cm-readonly-field {
+  background-color: var(--htw-bg-light);
+  border: 1px solid var(--htw-border);
+  color: var(--htw-text-muted);
+}
+
+/* Placeholder */
+.cm-placeholder {
+  color: var(--htw-text-muted);
+  font-style: italic;
+  font-size: 0.95rem;
+}

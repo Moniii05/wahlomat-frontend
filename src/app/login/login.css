@@ -1,0 +1,28 @@
+.login-wrapper {
+    min-height: 90vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--htw-bg-light);
+    padding: 1rem;
+}
+
+.login-card {
+    background-color: white;
+    border-radius: var(--htw-radius);
+    box-shadow: var(--htw-shadow);
+    padding: 2.5rem;
+    width: 100%;
+    max-width: 500px;
+    border: 1px solid var(--htw-border);
+}
+
+.login-title {
+    color: var(--htw-green);
+    font-weight: bold;
+    margin-bottom: 2rem;
+}
+
+.form-floating>label {
+    color: var(--htw-text-muted);
+}
