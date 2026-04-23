@@ -1,17 +1,18 @@
-# HTWahl-O-Mat – Frontend (Angular)
 
-Der **HTWahl-O-Mat** ist eine Wahlentscheidungshilfe für Studierende.  
-Im Frontend können sich Wählende durch Aussagen klicken, Kandidat:innen ihre Positionen abgeben und Admins Inhalte verwalten.
+```markdown
+Angular-Frontend für den HTWahl-O-Mat.  
+Enthält die Oberflächen für Wählende, Kandidat:innen und Admins.
 
-## Technologien
-- Angular
+## Tech
+- Angular 19
 - TypeScript
-- Bootstrap
+- Bootstrap + Bootstrap Icons
 - Transloco (i18n)
-- Node.js / npm
 
-## Installation & Start
+## Voraussetzungen
+- Node.js (LTS empfohlen)
+- npm
 
-### 1) Repository klonen
+## Installation
 ```bash
-git clone https://github.com/Moniii05/wahlomat-frontend.git
+npm install
