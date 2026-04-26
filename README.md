@@ -1,5 +1,3 @@
-
-```markdown
 Angular-Frontend für den HTWahl-O-Mat.  
 Enthält die Oberflächen für Wählende, Kandidat:innen und Admins.
 
@@ -16,8 +14,9 @@ Enthält die Oberflächen für Wählende, Kandidat:innen und Admins.
 ## Installation
 ```bash
 npm install
-```md
+npm run start
 
+``` 
 ## Screenshots
 
 ![Startseite](https://github.com/user-attachments/assets/c811559e-b2b7-4673-8300-b2d353bff016)
